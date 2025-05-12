@@ -5,13 +5,13 @@ VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppointmentManager.Api", "src\Api\AppointmentManager.Api.csproj", "{FFC66830-F0A6-CE58-3523-2ABE6EA2AF75}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppointmentManager.Application", "src\Application\AppointmentManager.Application.csproj", "{7DEB75AC-0D7B-D9A1-DE87-7A75027E6D61}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppointmentManager.Core", "src\Core\AppointmentManager.Core.csproj", "{619F629F-BF0B-59AB-FBDD-92D6E070453B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4D5AA361-2A2C-406D-B8C2-6CB8426C3C4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppointmentManager.Infrastructure", "src\Infrastructure\AppointmentManager.Infrastructure.csproj", "{789809B6-BFD9-878B-6052-9653F1862017}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppointmentManager.Core", "src\Core\AppointmentManager.Core.csproj", "{EBD34349-C220-AF1A-A5E6-3B0A71BEC0D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppointmentManager.Presentation", "src\Presentation\AppointmentManager.Presentation.csproj", "{B3FDA557-DF49-7270-0A4B-795BA2AC7A5B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,31 +19,26 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FFC66830-F0A6-CE58-3523-2ABE6EA2AF75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FFC66830-F0A6-CE58-3523-2ABE6EA2AF75}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FFC66830-F0A6-CE58-3523-2ABE6EA2AF75}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FFC66830-F0A6-CE58-3523-2ABE6EA2AF75}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7DEB75AC-0D7B-D9A1-DE87-7A75027E6D61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7DEB75AC-0D7B-D9A1-DE87-7A75027E6D61}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DEB75AC-0D7B-D9A1-DE87-7A75027E6D61}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DEB75AC-0D7B-D9A1-DE87-7A75027E6D61}.Release|Any CPU.Build.0 = Release|Any CPU
-		{619F629F-BF0B-59AB-FBDD-92D6E070453B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{619F629F-BF0B-59AB-FBDD-92D6E070453B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{619F629F-BF0B-59AB-FBDD-92D6E070453B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{619F629F-BF0B-59AB-FBDD-92D6E070453B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{789809B6-BFD9-878B-6052-9653F1862017}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{789809B6-BFD9-878B-6052-9653F1862017}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{789809B6-BFD9-878B-6052-9653F1862017}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{789809B6-BFD9-878B-6052-9653F1862017}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBD34349-C220-AF1A-A5E6-3B0A71BEC0D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBD34349-C220-AF1A-A5E6-3B0A71BEC0D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBD34349-C220-AF1A-A5E6-3B0A71BEC0D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBD34349-C220-AF1A-A5E6-3B0A71BEC0D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3FDA557-DF49-7270-0A4B-795BA2AC7A5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3FDA557-DF49-7270-0A4B-795BA2AC7A5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3FDA557-DF49-7270-0A4B-795BA2AC7A5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3FDA557-DF49-7270-0A4B-795BA2AC7A5B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{FFC66830-F0A6-CE58-3523-2ABE6EA2AF75} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{7DEB75AC-0D7B-D9A1-DE87-7A75027E6D61} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{619F629F-BF0B-59AB-FBDD-92D6E070453B} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{789809B6-BFD9-878B-6052-9653F1862017} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{EBD34349-C220-AF1A-A5E6-3B0A71BEC0D9} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{B3FDA557-DF49-7270-0A4B-795BA2AC7A5B} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CEC6688B-B03A-42E1-B17A-24C0EED41857}
