@@ -1,5 +1,5 @@
-using AppointmentManager.Core.Slots;
-using AppointmentManager.Domain.Slots;
+using AppointmentManager.Core.Entities;
+using AppointmentManager.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AppointmentManager.Presentation.Controllers
@@ -19,7 +19,7 @@ namespace AppointmentManager.Presentation.Controllers
         [ProducesResponseType<Slot>(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAvailableSlots([FromQuery] string date)
         {
-            var slots = _slotsManagementService.GetAvailableSlots();
+            var slots = _slotsManagementService.GetAvailableSlots(date);
             return Ok(slots);
         }
     }

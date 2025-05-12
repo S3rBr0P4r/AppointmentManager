@@ -1,4 +1,4 @@
-﻿namespace AppointmentManager.Core.Slots
+﻿namespace AppointmentManager.Core.Entities
 {
     public class Slot
     {
