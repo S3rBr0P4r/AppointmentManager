@@ -1,2 +1,16 @@
-# AppointmentManager
-Allows to book an appointment based on doctor's availability
+# Appointment Manager
+Doctors offer slots to patients. A slot is a period of time which the patient could ask
+for a visit. The doctor defines a slot duration (for example, 20 minutes) and
+determines the work period (from 8 am to 1 pm, for example). The doctor expects
+that the patient will be able to see available slots and book an appointment.
+The user should be able to see slots by week, select one and fill in the required data
+to book it.
+
+## How to run the app
+
+
+## Stack used
+* Backend
+    * .NET 8.0
+* Frontend
+    * Swagger
