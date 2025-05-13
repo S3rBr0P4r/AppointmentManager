@@ -1,5 +1,5 @@
-﻿using AppointmentManager.Application.Services;
-using AppointmentManager.Core.Entities;
+﻿using AppointmentManager.Domain.Entities;
+using AppointmentManager.Domain.Services;
 using AppointmentManager.Infrastructure.Handlers;
 
 namespace AppointmentManager.Application.Slots.Queries.GetAvailableSlots

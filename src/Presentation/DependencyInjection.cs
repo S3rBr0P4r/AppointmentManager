@@ -1,6 +1,6 @@
-﻿using AppointmentManager.Application.Services;
-using AppointmentManager.Application.Slots.Queries.GetAvailableSlots;
-using AppointmentManager.Core.Entities;
+﻿using AppointmentManager.Application.Slots.Queries.GetAvailableSlots;
+using AppointmentManager.Domain.Entities;
+using AppointmentManager.Domain.Services;
 using AppointmentManager.Infrastructure.Dispatchers;
 using AppointmentManager.Infrastructure.Handlers;
 

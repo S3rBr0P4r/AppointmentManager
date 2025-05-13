@@ -1,6 +1,5 @@
 using System.Text;
-using AppointmentManager.Application;
-using AppointmentManager.Application.Services;
+using AppointmentManager.Domain.Services;
 using AppointmentManager.Presentation;
 
 var builder = WebApplication.CreateBuilder(args);

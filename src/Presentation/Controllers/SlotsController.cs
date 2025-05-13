@@ -1,5 +1,5 @@
 using AppointmentManager.Application.Slots.Queries.GetAvailableSlots;
-using AppointmentManager.Core.Entities;
+using AppointmentManager.Domain.Entities;
 using AppointmentManager.Infrastructure.Dispatchers;
 using Microsoft.AspNetCore.Mvc;
 

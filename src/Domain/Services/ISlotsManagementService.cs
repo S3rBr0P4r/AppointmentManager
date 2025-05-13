@@ -1,6 +1,6 @@
-﻿using AppointmentManager.Core.Entities;
+﻿using AppointmentManager.Domain.Entities;
 
-namespace AppointmentManager.Application.Services
+namespace AppointmentManager.Domain.Services
 {
     public interface ISlotsManagementService
     {
