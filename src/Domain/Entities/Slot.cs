@@ -1,8 +1,11 @@
-﻿namespace AppointmentManager.Core.Entities
+﻿namespace AppointmentManager.Domain.Entities
 {
     public class Slot
     {
-        public string Start { get; set; }
-        public string End { get; set; }
+        public DateOnly StartDate { get; set; }
+        public TimeOnly StartTime { get; set; }
+
+        public DateOnly EndDate { get; set; }
+        public TimeOnly EndTime { get; set; }
     }
 }
