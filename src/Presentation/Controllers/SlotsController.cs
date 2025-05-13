@@ -1,5 +1,6 @@
+using AppointmentManager.Application.Slots.Queries.GetAvailableSlots;
 using AppointmentManager.Core.Entities;
-using AppointmentManager.Core.Services;
+using AppointmentManager.Infrastructure.Dispatchers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AppointmentManager.Presentation.Controllers
@@ -8,18 +9,20 @@ namespace AppointmentManager.Presentation.Controllers
     [Route("[controller]")]
     public class SlotsController : ControllerBase
     {
-        private readonly ISlotsManagementService _slotsManagementService;
+        private readonly IQueryDispatcher _queryDispatcher;
 
-        public SlotsController(ISlotsManagementService slotsManagementService)
+        public SlotsController(IQueryDispatcher queryDispatcher)
         {
-            _slotsManagementService = slotsManagementService;
+            _queryDispatcher = queryDispatcher;
         }
 
         [HttpGet("AvailableSlots")]
-        [ProducesResponseType<Slot>(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetAvailableSlots([FromQuery] string date)
+        [ProducesResponseType<IEnumerable<Slot>>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetAvailableSlots([FromQuery] DateOnly date, CancellationToken cancellationToken)
         {
-            var slots = _slotsManagementService.GetAvailableSlots(date);
+            var query = new GetAvailableSlotsQuery(date);
+            var slots = await _queryDispatcher.Dispatch<GetAvailableSlotsQuery, IEnumerable<Slot>>(query, cancellationToken);
             return Ok(slots);
         }
     }
