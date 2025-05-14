@@ -1,4 +1,5 @@
-﻿using AppointmentManager.Domain.Formatters;
+﻿using System.Net;
+using AppointmentManager.Domain.Formatters;
 using AppointmentManager.Domain.Models;
 using Newtonsoft.Json;
 
@@ -15,45 +16,82 @@ namespace AppointmentManager.Domain.Services
             _httpClient = httpClient;
         }
 
-        public async Task<IEnumerable<WorkDay>> GetWorkDaysShiftAsync(DateOnly date)
+        public async Task<SlotsInformation> GetSlotsInformationAsync(DateOnly date)
+        {
+            var slotsInformation = new SlotsInformation();
+            var dateRequestParameter = _dateRequestFormatter.GetCompatibleDateWithSlotService(date);
+            using var response = await _httpClient.GetAsync(dateRequestParameter);
+            var responseContent = await response.Content.ReadAsStringAsync();
+            if (DateRequestedToSlotServiceIsNotMonday(response, responseContent)) throw new ArgumentException($"DateTime '{date}' must be Monday");
+            if (SlotServiceIsDown(response)) throw new TimeoutException("Slot service is down and work days shift cannot be retrieved");
+            
+            dynamic jsonContent = JsonConvert.DeserializeObject(responseContent);
+            slotsInformation.WorkDays = GetWorkDaysInformation(date, jsonContent);
+            slotsInformation.SlotDurationMinutes = GetSlotDurationMinutes(jsonContent);
+
+            return slotsInformation;
+        }
+
+        private static int? GetSlotDurationMinutes(dynamic? jsonContent)
+        {
+            return JsonPropertyIsAvailable(jsonContent?.SlotDurationMinutes) ? (int?)jsonContent?.SlotDurationMinutes : null;
+        }
+
+        private static List<WorkDay> GetWorkDaysInformation(DateOnly date, dynamic? jsonContent)
         {
             var workDays = new List<WorkDay>();
-            var dateRequestParameter = _dateRequestFormatter.GetCompatibleDateWithSlotService(date);
-            using HttpResponseMessage response = await _httpClient.GetAsync(dateRequestParameter);
-            var responseContent = await response.Content.ReadAsStringAsync();
-            if (string.IsNullOrEmpty(responseContent))
+            var daysJsonProperty = new Dictionary<DateOnly, dynamic?>
             {
-                // Todo throw exception
-            }
-            
-            dynamic? jsonContent = JsonConvert.DeserializeObject(responseContent);
-            if (jsonContent is null)
-            {
-                // Todo throw exception
-            }
-            var monday = jsonContent?.Monday;
-            if (monday is not null)
-            {
-                var workDay = new WorkDay
-                {
-                    Day = date,
-                    WorkPeriod = new WorkPeriod
-                    {
-                        StartHour = monday.WorkPeriod.StartHour,
-                        EndHour = monday.WorkPeriod.EndHour,
-                        LunchStartHour = monday.WorkPeriod.LunchStartHour,
-                        LunchEndHour = monday.WorkPeriod.LunchEndHour
-                    }
-                };
-                if (monday.BusySlots is not null)
-                {
-                    workDay.BusySlots = monday.BusySlots.ToObject<List<BusySlot>>();
-                }
+                { date, jsonContent?.Monday },
+                { date.AddDays(1), jsonContent?.Tuesday },
+                { date.AddDays(2), jsonContent?.Wednesday },
+                { date.AddDays(3), jsonContent?.Thursday },
+                { date.AddDays(4), jsonContent?.Friday }
+            };
 
+            foreach (var propertyContent in daysJsonProperty)
+            {
+                if (!JsonPropertyIsAvailable(propertyContent.Value)) continue;
+                var workDay = GetWorkDay(propertyContent.Key, propertyContent.Value);
                 workDays.Add(workDay);
             }
-
             return workDays;
+        }
+
+        private static bool SlotServiceIsDown(HttpResponseMessage response)
+        {
+            return response.StatusCode.Equals(HttpStatusCode.InternalServerError);
+        }
+
+        private static bool DateRequestedToSlotServiceIsNotMonday(HttpResponseMessage response, string responseContent)
+        {
+            return response.StatusCode.Equals(HttpStatusCode.BadRequest) && responseContent.Contains("datetime must be a Monday");
+        }
+
+        private static WorkDay GetWorkDay(DateOnly date, dynamic day)
+        {
+            var workDay = new WorkDay
+            {
+                Day = date,
+                WorkPeriod = new WorkPeriod
+                {
+                    StartHour = day.WorkPeriod.StartHour,
+                    EndHour = day.WorkPeriod.EndHour,
+                    LunchStartHour = day.WorkPeriod.LunchStartHour,
+                    LunchEndHour = day.WorkPeriod.LunchEndHour
+                }
+            };
+            if (day.BusySlots is not null)
+            {
+                workDay.BusySlots = day.BusySlots.ToObject<List<BusySlot>>();
+            }
+
+            return workDay;
+        }
+
+        private static bool JsonPropertyIsAvailable(dynamic? property)
+        {
+            return property is not null;
         }
     }
 }
