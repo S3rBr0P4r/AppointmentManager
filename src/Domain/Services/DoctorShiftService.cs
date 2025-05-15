@@ -1,4 +1,7 @@
 ﻿using System.Net;
+using System.Net.Mime;
+using System.Text;
+using AppointmentManager.Domain.Entities;
 using AppointmentManager.Domain.Formatters;
 using AppointmentManager.Domain.Models;
 using Newtonsoft.Json;
@@ -7,7 +10,8 @@ namespace AppointmentManager.Domain.Services
 {
     public class DoctorShiftService : IDoctorShiftService
     {
-        private const string EndpointName = "GetWeeklyAvailability";
+        private const string GetWeeklyAvailabilityEndpointName = "GetWeeklyAvailability";
+        private const string TakeSlotEndpointName = "TakeSlot";
         private readonly IDateRequestFormatter _dateRequestFormatter;
         private readonly HttpClient _httpClient;
 
@@ -21,7 +25,7 @@ namespace AppointmentManager.Domain.Services
         {
             var slotsInformation = new SlotsInformation();
             var dateRequestParameter = _dateRequestFormatter.GetCompatibleDateWithSlotService(date);
-            var requestUri = $"{EndpointName}/{dateRequestParameter}";
+            var requestUri = $"{GetWeeklyAvailabilityEndpointName}/{dateRequestParameter}";
             using var response = await _httpClient.GetAsync(requestUri, cancellationToken);
             var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
             if (DateRequestedToSlotServiceIsNotMonday(response, responseContent)) throw new ArgumentException($"Date '{date}' must be Monday");
@@ -32,6 +36,15 @@ namespace AppointmentManager.Domain.Services
             slotsInformation.SlotDurationMinutes = jsonContent?.SlotDurationMinutes;
 
             return slotsInformation;
+        }
+
+        public async Task<HttpResponseMessage> AddSlotToShiftAsync(Appointment appointment, CancellationToken cancellationToken)
+        {
+            // TODO: Why await _httpClient.PostAsJsonAsync throws BadRequest with message `Valid slot required` from Slot service?
+            var jsonObject = JsonConvert.SerializeObject(appointment);
+            var content = new StringContent(jsonObject, Encoding.UTF8, MediaTypeNames.Application.Json);
+            var response = await _httpClient.PostAsync(TakeSlotEndpointName, content, cancellationToken);
+            return response;
         }
 
         private static List<WorkDay> GetWorkDaysInformation(DateOnly date, dynamic? jsonContent)

@@ -3,6 +3,7 @@ using AppointmentManager.Domain.Services;
 using Moq.Protected;
 using Moq;
 using System.Net;
+using AppointmentManager.Domain.Entities;
 
 namespace AppointmentManager.Domain.Tests.Services
 {
@@ -16,7 +17,7 @@ namespace AppointmentManager.Domain.Tests.Services
             var responseContent = """
                                   { "SlotDurationMinutes": 60 }
                                   """;
-            var handler = SetupHttpMessageHandlerResponse(responseContent, HttpStatusCode.OK);
+            var handler = SetupGetAsyncResponse(responseContent, HttpStatusCode.OK);
             var client = SetupHttpClient(handler);
             var dateRequestFormatter = new DateRequestFormatter();
             var sut = new DoctorShiftService(dateRequestFormatter, client);
@@ -42,7 +43,7 @@ namespace AppointmentManager.Domain.Tests.Services
                                       }
                                   }
                                   """;
-            var handler = SetupHttpMessageHandlerResponse(responseContent, HttpStatusCode.OK);
+            var handler = SetupGetAsyncResponse(responseContent, HttpStatusCode.OK);
             var client = SetupHttpClient(handler);
             var dateRequestFormatter = new DateRequestFormatter();
             var sut = new DoctorShiftService(dateRequestFormatter, client);
@@ -77,7 +78,7 @@ namespace AppointmentManager.Domain.Tests.Services
                                       }
                                   }
                                   """;
-            var handler = SetupHttpMessageHandlerResponse(responseContent, HttpStatusCode.OK);
+            var handler = SetupGetAsyncResponse(responseContent, HttpStatusCode.OK);
             var client = SetupHttpClient(handler);
             var dateRequestFormatter = new DateRequestFormatter();
             var sut = new DoctorShiftService(dateRequestFormatter, client);
@@ -112,7 +113,7 @@ namespace AppointmentManager.Domain.Tests.Services
                                       }
                                   }
                                   """;
-            var handler = SetupHttpMessageHandlerResponse(responseContent, HttpStatusCode.OK);
+            var handler = SetupGetAsyncResponse(responseContent, HttpStatusCode.OK);
             var client = SetupHttpClient(handler);
             var dateRequestFormatter = new DateRequestFormatter();
             var sut = new DoctorShiftService(dateRequestFormatter, client);
@@ -147,7 +148,7 @@ namespace AppointmentManager.Domain.Tests.Services
                                       }
                                   }
                                   """;
-            var handler = SetupHttpMessageHandlerResponse(responseContent, HttpStatusCode.OK);
+            var handler = SetupGetAsyncResponse(responseContent, HttpStatusCode.OK);
             var client = SetupHttpClient(handler);
             var dateRequestFormatter = new DateRequestFormatter();
             var sut = new DoctorShiftService(dateRequestFormatter, client);
@@ -182,7 +183,7 @@ namespace AppointmentManager.Domain.Tests.Services
                                       }
                                   }
                                   """;
-            var handler = SetupHttpMessageHandlerResponse(responseContent, HttpStatusCode.OK);
+            var handler = SetupGetAsyncResponse(responseContent, HttpStatusCode.OK);
             var client = SetupHttpClient(handler);
             var dateRequestFormatter = new DateRequestFormatter();
             var sut = new DoctorShiftService(dateRequestFormatter, client);
@@ -221,7 +222,7 @@ namespace AppointmentManager.Domain.Tests.Services
                                       }
                                   }
                                   """;
-            var handler = SetupHttpMessageHandlerResponse(responseContent, HttpStatusCode.OK);
+            var handler = SetupGetAsyncResponse(responseContent, HttpStatusCode.OK);
             var client = SetupHttpClient(handler);
             var dateRequestFormatter = new DateRequestFormatter();
             var sut = new DoctorShiftService(dateRequestFormatter, client);
@@ -243,7 +244,7 @@ namespace AppointmentManager.Domain.Tests.Services
             // Arrange
             var dateOnly = new DateOnly(2025, 11, 20);
             var responseContent = "<string xmlns=\"http://schemas.microsoft.com/2003/10/Serialization/\">datetime must be a Monday</string>";
-            var handler = SetupHttpMessageHandlerResponse(responseContent, HttpStatusCode.BadRequest);
+            var handler = SetupGetAsyncResponse(responseContent, HttpStatusCode.BadRequest);
             var client = SetupHttpClient(handler);
             var dateRequestFormatter = new DateRequestFormatter();
             var sut = new DoctorShiftService(dateRequestFormatter, client);
@@ -261,7 +262,7 @@ namespace AppointmentManager.Domain.Tests.Services
             // Arrange
             var dateOnly = new DateOnly(2025, 11, 20);
             var responseContent = "<string xmlns=\"http://schemas.microsoft.com/2003/10/Serialization/\">Service is down</string>";
-            var handler = SetupHttpMessageHandlerResponse(responseContent, HttpStatusCode.InternalServerError);
+            var handler = SetupGetAsyncResponse(responseContent, HttpStatusCode.InternalServerError);
             var client = SetupHttpClient(handler);
             var dateRequestFormatter = new DateRequestFormatter();
             var sut = new DoctorShiftService(dateRequestFormatter, client);
@@ -273,6 +274,54 @@ namespace AppointmentManager.Domain.Tests.Services
             Assert.Contains("Slot service is down and work days shift cannot be retrieved", exception.Result.Message);
         }
 
+        [Fact]
+        public async Task ReturnsOkWhenSlotIsSuccessfullyAddedInShift()
+        {
+            // Arrange
+            var appointment = new Appointment(Guid.NewGuid().ToString(), "Pain in left arm",
+                new Patient("Sergio", "Brotons", "s3rbr0p4r@email.com", "555 66 77 88"))
+            {
+                Start = new DateTime(2025, 11, 20, 10, 0, 0),
+                End = new DateTime(2025, 11, 20, 11, 0, 0),
+            };
+            var responseContent = "";
+            var handler = SetupPostAsyncResponse(responseContent, HttpStatusCode.OK);
+            var client = SetupHttpClient(handler);
+            var dateRequestFormatter = new DateRequestFormatter();
+            var sut = new DoctorShiftService(dateRequestFormatter, client);
+
+            // Act
+            var response = await sut.AddSlotToShiftAsync(appointment, CancellationToken.None);
+
+            // Assert
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(string.Empty, response.Content.ReadAsStringAsync(CancellationToken.None).Result);
+        }
+
+        [Fact]
+        public async Task ReturnsBadRequestWhenSlotIsNotSuccessfullyAddedInShift()
+        {
+            // Arrange
+            var appointment = new Appointment(Guid.NewGuid().ToString(), "Pain in left arm",
+                new Patient("Sergio", "Brotons", "s3rbr0p4r@email.com", "555 66 77 88"))
+            {
+                Start = new DateTime(2025, 11, 20, 10, 0, 0),
+                End = new DateTime(2025, 11, 20, 11, 0, 0),
+            };
+            var responseContent = "Valid slot required";
+            var handler = SetupPostAsyncResponse(responseContent, HttpStatusCode.BadRequest);
+            var client = SetupHttpClient(handler);
+            var dateRequestFormatter = new DateRequestFormatter();
+            var sut = new DoctorShiftService(dateRequestFormatter, client);
+
+            // Act
+            var response = await sut.AddSlotToShiftAsync(appointment, CancellationToken.None);
+
+            // Assert
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+            Assert.Equal("Valid slot required", response.Content.ReadAsStringAsync(CancellationToken.None).Result);
+        }
+
         private static HttpClient SetupHttpClient(Mock<HttpMessageHandler> handler)
         {
             var client = new HttpClient(handler.Object);
@@ -280,13 +329,30 @@ namespace AppointmentManager.Domain.Tests.Services
             return client;
         }
 
-        private static Mock<HttpMessageHandler> SetupHttpMessageHandlerResponse(string responseContent, HttpStatusCode statusCode)
+        private static Mock<HttpMessageHandler> SetupGetAsyncResponse(string responseContent, HttpStatusCode statusCode)
         {
             var handler = new Mock<HttpMessageHandler>();
             handler
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>("SendAsync",
                     ItExpr.Is<HttpRequestMessage>(m => m.RequestUri.AbsolutePath.StartsWith("/GetWeeklyAvailability/")),
+                    ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = statusCode,
+                    Content = new StringContent(responseContent)
+                })
+                .Verifiable();
+            return handler;
+        }
+
+        private static Mock<HttpMessageHandler> SetupPostAsyncResponse(string responseContent, HttpStatusCode statusCode)
+        {
+            var handler = new Mock<HttpMessageHandler>();
+            handler
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync",
+                    ItExpr.Is<HttpRequestMessage>(m => m.RequestUri.AbsolutePath.EndsWith("/TakeSlot")),
                     ItExpr.IsAny<CancellationToken>())
                 .ReturnsAsync(new HttpResponseMessage
                 {
