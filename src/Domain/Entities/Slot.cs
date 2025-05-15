@@ -2,10 +2,7 @@
 {
     public class Slot
     {
-        public DateOnly StartDate { get; set; }
-        public TimeOnly StartTime { get; set; }
-
-        public DateOnly EndDate { get; set; }
-        public TimeOnly EndTime { get; set; }
+        public DateTime Start { get; set; }
+        public DateTime End { get; set; }
     }
 }

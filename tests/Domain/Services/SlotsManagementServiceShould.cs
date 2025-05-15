@@ -1,59 +1,51 @@
-using System.Net;
+using AppointmentManager.Domain.Models;
 using AppointmentManager.Domain.Services;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using Moq;
-using Moq.Protected;
 
 namespace AppointmentManager.Domain.Tests.Services
 {
     public class SlotsManagementServiceShould
     {
         [Theory]
-        [InlineData(60, 7)]
-        [InlineData(30, 14)]
-        [InlineData(15, 28)]
-        public async Task ReturnSlotsForMondayNotHavingBusySlots(int slotDurationMinutes, int expectedAvailableSlots)
+        [InlineData(60, 5, 9)]
+        [InlineData(30, 10, 18)]
+        [InlineData(15, 20, 36)]
+        public async Task ReturnAvailableSlots(int slotDurationMinutes, int expectedAvailableSlotsForFirstWorkDay, int expectedAvailableSlotsForSecondWorkDay)
         {
             // Arrange
             var dateOnly = new DateOnly(2025, 11, 20);
-            var responseContent = $@"
-                                  {{
-                                      ""Facility"": {{
-                                          ""FacilityId"": ""794fad3e-6734-4773-b221-e744e11bbb5a"",
-                                          ""Name"": ""Las Palmeras"",
-                                          ""Address"": ""Plaza de la independencia 36, 38006 Santa Cruz de Tenerife""
-                                      }},
-                                      ""SlotDurationMinutes"": {slotDurationMinutes},
-                                      ""Monday"": {{
-                                          ""WorkPeriod"": {{
-                                              ""StartHour"": 9,
-                                              ""EndHour"": 17,
-                                              ""LunchStartHour"": 13,
-                                              ""LunchEndHour"": 14
-                                          }}
-                                      }}
-                                  }}
-                                  ";
-            var handler = new Mock<HttpMessageHandler>();
-            handler
-                .Protected()
-                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(new HttpResponseMessage
+            var doctorShiftService = new Mock<IDoctorShiftService>();
+            doctorShiftService
+                .Setup(dss => dss.GetSlotsInformationAsync(dateOnly))
+                .ReturnsAsync(() => new SlotsInformation
                 {
-                    StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent(responseContent)
-                })
-                .Verifiable();
-
-            var client = new HttpClient(handler.Object);
-            client.BaseAddress = new Uri("https://draliatest.azurewebsites.net/api/availability/GetWeeklyAvailability/");
-            var sut = new SlotsManagementService(client);
+                    SlotDurationMinutes = slotDurationMinutes,
+                    WorkDays = new List<WorkDay>
+                    {
+                        new()
+                        {
+                            Day = dateOnly,
+                            WorkPeriod = new WorkPeriod { StartHour = 10, EndHour = 13, LunchStartHour = 17, LunchEndHour = 19 }
+                        },
+                        new()
+                        {
+                            Day = dateOnly.AddDays(1),
+                            WorkPeriod = new WorkPeriod { StartHour = 9, EndHour = 14, LunchStartHour = 16, LunchEndHour = 20 }
+                        }
+                    }
+                });
+            
+            var sut = new SlotsManagementService(doctorShiftService.Object);
 
             // Act
-            var slots = await sut.GetAvailableSlotsAsync(dateOnly);
+            var slots = (await sut.GetAvailableSlotsAsync(dateOnly)).ToList();
 
             // Assert
-            Assert.Equal(expectedAvailableSlots, slots.Count());
+            Assert.Equal(expectedAvailableSlotsForFirstWorkDay + expectedAvailableSlotsForSecondWorkDay, slots.Count);
+            var availableSlotsForFirstWorkDay = slots.Count(s => DateOnly.FromDateTime(s.Start).Equals(dateOnly));
+            Assert.Equal(expectedAvailableSlotsForFirstWorkDay, availableSlotsForFirstWorkDay);
+            var availableSlotsForSecondWorkDay = slots.Count(s => DateOnly.FromDateTime(s.Start).Equals(dateOnly.AddDays(1)));
+            Assert.Equal(expectedAvailableSlotsForSecondWorkDay, availableSlotsForSecondWorkDay);
         }
 
         [Fact]
@@ -62,45 +54,24 @@ namespace AppointmentManager.Domain.Tests.Services
             // Arrange
             var dateOnly = new DateOnly(2025, 11, 20);
             var slotDurationMinutes = 60;
-            var expectedAvailableSlots = 6;
-            var responseContent = $@"
-                                  {{
-                                      ""Facility"": {{
-                                          ""FacilityId"": ""794fad3e-6734-4773-b221-e744e11bbb5a"",
-                                          ""Name"": ""Las Palmeras"",
-                                          ""Address"": ""Plaza de la independencia 36, 38006 Santa Cruz de Tenerife""
-                                      }},
-                                      ""SlotDurationMinutes"": {slotDurationMinutes},
-                                      ""Monday"": {{
-                                          ""WorkPeriod"": {{
-                                              ""StartHour"": 9,
-                                              ""EndHour"": 17,
-                                              ""LunchStartHour"": 13,
-                                              ""LunchEndHour"": 14
-                                          }},
-                                          ""BusySlots"": [
-			                                {{
-				                                ""Start"": ""2025-11-20T10:00:00"",
-				                                ""End"": ""2025-11-20T11:00:00""
-			                                }}
-		                                  ]
-                                      }}
-                                  }}
-                                  ";
-            var handler = new Mock<HttpMessageHandler>();
-            handler
-                .Protected()
-                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(new HttpResponseMessage
+            var expectedAvailableSlots = 4;
+            var doctorShiftService = new Mock<IDoctorShiftService>();
+            doctorShiftService
+                .Setup(dss => dss.GetSlotsInformationAsync(dateOnly))
+                .ReturnsAsync(() => new SlotsInformation
                 {
-                    StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent(responseContent)
-                })
-                .Verifiable();
-
-            var client = new HttpClient(handler.Object);
-            client.BaseAddress = new Uri("https://draliatest.azurewebsites.net/api/availability/GetWeeklyAvailability/");
-            var sut = new SlotsManagementService(client);
+                    SlotDurationMinutes = slotDurationMinutes,
+                    WorkDays = new List<WorkDay>
+                    {
+                        new WorkDay
+                        {
+                            WorkPeriod = new WorkPeriod { StartHour = 10, EndHour = 13, LunchStartHour = 17, LunchEndHour = 19 },
+                            BusySlots =
+                            [ new BusySlot { Start = new DateTime(2025, 11, 20, 10, 0, 0), End = new DateTime(2025, 11, 20, 11, 0, 0) } ]
+                        }
+                    }
+                });
+            var sut = new SlotsManagementService(doctorShiftService.Object);
 
             // Act
             var slots = await sut.GetAvailableSlotsAsync(dateOnly);

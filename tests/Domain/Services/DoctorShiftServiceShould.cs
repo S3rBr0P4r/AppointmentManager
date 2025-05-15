@@ -35,6 +35,7 @@ namespace AppointmentManager.Domain.Tests.Services
             var dateOnly = new DateOnly(2025, 11, 20);
             var responseContent = """
                                   {
+                                      "SlotDurationMinutes": 60,
                                       "Monday": {
                                         "WorkPeriod": { "StartHour": 10, "EndHour": 13, "LunchStartHour": 17, "LunchEndHour": 19 },
                                   		"BusySlots": [{ "Start": "2025-11-20T10:00:00", "End": "2025-11-20T11:00:00" }]
@@ -69,6 +70,7 @@ namespace AppointmentManager.Domain.Tests.Services
             var dateOnly = new DateOnly(2025, 11, 20);
             var responseContent = """
                                   {
+                                      "SlotDurationMinutes": 60,
                                       "Tuesday": {
                                         "WorkPeriod": { "StartHour": 9, "EndHour": 12, "LunchStartHour": 16, "LunchEndHour": 18 },
                                   		"BusySlots": [{ "Start": "2025-11-20T11:00:00", "End": "2025-11-20T12:00:00" }]
@@ -103,6 +105,7 @@ namespace AppointmentManager.Domain.Tests.Services
             var dateOnly = new DateOnly(2025, 11, 20);
             var responseContent = """
                                   {
+                                      "SlotDurationMinutes": 60,
                                       "Wednesday": {
                                         "WorkPeriod": { "StartHour": 8, "EndHour": 11, "LunchStartHour": 15, "LunchEndHour": 19 },
                                   		"BusySlots": [{ "Start": "2025-11-20T15:00:00", "End": "2025-11-20T16:00:00" }]
@@ -137,6 +140,7 @@ namespace AppointmentManager.Domain.Tests.Services
             var dateOnly = new DateOnly(2025, 11, 20);
             var responseContent = """
                                   {
+                                      "SlotDurationMinutes": 60,
                                       "Thursday": {
                                         "WorkPeriod": { "StartHour": 8, "EndHour": 13, "LunchStartHour": 16, "LunchEndHour": 20 },
                                   		"BusySlots": [{ "Start": "2025-11-20T17:00:00", "End": "2025-11-20T18:00:00" }]
@@ -171,6 +175,7 @@ namespace AppointmentManager.Domain.Tests.Services
             var dateOnly = new DateOnly(2025, 11, 20);
             var responseContent = """
                                   {
+                                      "SlotDurationMinutes": 60,
                                       "Friday": {
                                         "WorkPeriod": { "StartHour": 8, "EndHour": 14, "LunchStartHour": 16, "LunchEndHour": 19 },
                                   		"BusySlots": [{ "Start": "2025-11-20T18:00:00", "End": "2025-11-20T19:00:00" }]
@@ -205,6 +210,7 @@ namespace AppointmentManager.Domain.Tests.Services
             var dateOnly = new DateOnly(2025, 11, 20);
             var responseContent = """
                                   {
+                                      "SlotDurationMinutes": 60,
                                       "Thursday": {
                                         "WorkPeriod": { "StartHour": 8, "EndHour": 14, "LunchStartHour": 16, "LunchEndHour": 19 },
                                     	"BusySlots": [{ "Start": "2025-11-23T18:00:00", "End": "2025-11-23T19:00:00" }]

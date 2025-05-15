@@ -27,14 +27,9 @@ namespace AppointmentManager.Domain.Services
             
             dynamic jsonContent = JsonConvert.DeserializeObject(responseContent);
             slotsInformation.WorkDays = GetWorkDaysInformation(date, jsonContent);
-            slotsInformation.SlotDurationMinutes = GetSlotDurationMinutes(jsonContent);
+            slotsInformation.SlotDurationMinutes = jsonContent?.SlotDurationMinutes;
 
             return slotsInformation;
-        }
-
-        private static int? GetSlotDurationMinutes(dynamic? jsonContent)
-        {
-            return JsonPropertyIsAvailable(jsonContent?.SlotDurationMinutes) ? (int?)jsonContent?.SlotDurationMinutes : null;
         }
 
         private static List<WorkDay> GetWorkDaysInformation(DateOnly date, dynamic? jsonContent)
@@ -51,7 +46,7 @@ namespace AppointmentManager.Domain.Services
 
             foreach (var propertyContent in daysJsonProperty)
             {
-                if (!JsonPropertyIsAvailable(propertyContent.Value)) continue;
+                if (!WorkDayIsAvailable(propertyContent.Value)) continue;
                 var workDay = GetWorkDay(propertyContent.Key, propertyContent.Value);
                 workDays.Add(workDay);
             }
@@ -89,9 +84,9 @@ namespace AppointmentManager.Domain.Services
             return workDay;
         }
 
-        private static bool JsonPropertyIsAvailable(dynamic? property)
+        private static bool WorkDayIsAvailable(dynamic? workDay)
         {
-            return property is not null;
+            return workDay is not null;
         }
     }
 }

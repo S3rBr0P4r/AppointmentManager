@@ -2,7 +2,7 @@
 {
     public class SlotsInformation
     {
-        public int? SlotDurationMinutes { get; set; }
+        public double SlotDurationMinutes { get; set; }
 
         public IEnumerable<WorkDay> WorkDays { get; set; }
     }
