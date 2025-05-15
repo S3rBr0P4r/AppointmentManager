@@ -51,11 +51,14 @@ namespace AppointmentManager.Domain.Services
             return availableSlots;
         }
 
-        public async Task TakeSlotAsync(Appointment appointment, CancellationToken cancellationToken)
+        public async Task<HttpStatusCode> TakeSlotAsync(Appointment appointment, CancellationToken cancellationToken)
         {
             var response = await _doctorShiftService.AddSlotToShiftAsync(appointment, cancellationToken);
             if (response.StatusCode.Equals(HttpStatusCode.BadRequest))
+            {
                 throw new ArgumentException(response.Content.ReadAsStringAsync(cancellationToken).Result);
+            }
+            return response.StatusCode;
         }
 
         private static bool SlotIsAlreadyBooked(List<BusySlot> busySlots, Slot slot)

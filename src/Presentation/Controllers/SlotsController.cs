@@ -36,7 +36,7 @@ namespace AppointmentManager.Presentation.Controllers
         public async Task<IActionResult> PostSlot([FromBody] TakeSlotsCommand command, CancellationToken cancellationToken)
         {
             var statusCode = await _commandDispatcher.Dispatch<TakeSlotsCommand, HttpStatusCode>(command, cancellationToken);
-            if (statusCode == HttpStatusCode.Accepted)
+            if (statusCode == HttpStatusCode.OK)
             {
                 return Accepted();
             }

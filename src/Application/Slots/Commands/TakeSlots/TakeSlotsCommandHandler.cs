@@ -21,8 +21,8 @@ namespace AppointmentManager.Application.Slots.Commands.TakeSlots
                 Start = command.Start,
                 End = command.End
             };
-            await _slotsManagementService.TakeSlotAsync(appointment, cancellationToken);
-            return HttpStatusCode.Accepted;
+            var statusCode = await _slotsManagementService.TakeSlotAsync(appointment, cancellationToken);
+            return statusCode;
         }
     }
 }

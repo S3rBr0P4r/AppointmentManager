@@ -85,6 +85,35 @@ namespace AppointmentManager.Domain.Tests.Services
         }
 
         [Fact]
+        public async Task ReturnOkWhenSlotIsSuccessfullyBookedByPatient()
+        {
+            // Arrange
+            var facilityId = Guid.NewGuid().ToString();
+            var appointment = new Appointment(facilityId, "Pain in left arm",
+                new Patient("Sergio", "Brotons", "s3rbr0p4r@email.com", "555 66 77 88"))
+            {
+                Start = new DateTime(2025, 11, 20, 10, 0, 0),
+                End = new DateTime(2025, 11, 20, 11, 0, 0),
+            };
+            var doctorShiftService = new Mock<IDoctorShiftService>();
+            doctorShiftService
+                .Setup(dss => dss.AddSlotToShiftAsync(
+                    It.Is<Appointment>(a => a.FacilityId.Equals(facilityId)),
+                    CancellationToken.None))
+                .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.OK)
+                {
+                    Content = new StringContent("")
+                });
+            var sut = new SlotsManagementService(doctorShiftService.Object);
+
+            // Act
+            var statusCode = await sut.TakeSlotAsync(appointment, CancellationToken.None);
+
+            // Assert
+            Assert.Equal(HttpStatusCode.OK, statusCode);
+        }
+
+        [Fact]
         public void ThrowsBadRequestExceptionWhenSlotIsNotSuccessfullyBookedByPatient()
         {
             // Arrange
