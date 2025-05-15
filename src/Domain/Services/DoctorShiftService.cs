@@ -71,9 +71,9 @@ namespace AppointmentManager.Domain.Services
                 WorkPeriod = new WorkPeriod
                 {
                     StartHour = day.WorkPeriod.StartHour,
-                    EndHour = day.WorkPeriod.EndHour,
                     LunchStartHour = day.WorkPeriod.LunchStartHour,
-                    LunchEndHour = day.WorkPeriod.LunchEndHour
+                    LunchEndHour = day.WorkPeriod.LunchEndHour,
+                    EndHour = day.WorkPeriod.EndHour
                 }
             };
             if (day.BusySlots is not null)

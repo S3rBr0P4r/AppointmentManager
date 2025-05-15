@@ -37,7 +37,7 @@ namespace AppointmentManager.Domain.Tests.Services
                                   {
                                       "SlotDurationMinutes": 60,
                                       "Monday": {
-                                        "WorkPeriod": { "StartHour": 10, "EndHour": 13, "LunchStartHour": 17, "LunchEndHour": 19 },
+                                        "WorkPeriod": { "StartHour": 10, "LunchStartHour": 13, "LunchEndHour": 17, "EndHour": 19 },
                                   		"BusySlots": [{ "Start": "2025-11-20T10:00:00", "End": "2025-11-20T11:00:00" }]
                                       }
                                   }
@@ -54,9 +54,9 @@ namespace AppointmentManager.Domain.Tests.Services
             Assert.Single(slotsInformation.WorkDays);
             var workDay = slotsInformation.WorkDays.First();
             Assert.Equal(10, workDay.WorkPeriod.StartHour);
-            Assert.Equal(13, workDay.WorkPeriod.EndHour);
-            Assert.Equal(17, workDay.WorkPeriod.LunchStartHour);
-            Assert.Equal(19, workDay.WorkPeriod.LunchEndHour);
+            Assert.Equal(13, workDay.WorkPeriod.LunchStartHour);
+            Assert.Equal(17, workDay.WorkPeriod.LunchEndHour);
+            Assert.Equal(19, workDay.WorkPeriod.EndHour);
             Assert.Single(workDay.BusySlots);
             var busySlot = workDay.BusySlots.First();
             Assert.Equal(new DateTime(2025, 11, 20, 10,0,0), busySlot.Start);
@@ -72,7 +72,7 @@ namespace AppointmentManager.Domain.Tests.Services
                                   {
                                       "SlotDurationMinutes": 60,
                                       "Tuesday": {
-                                        "WorkPeriod": { "StartHour": 9, "EndHour": 12, "LunchStartHour": 16, "LunchEndHour": 18 },
+                                        "WorkPeriod": { "StartHour": 9, "LunchStartHour": 12, "LunchEndHour": 16, "EndHour": 18 },
                                   		"BusySlots": [{ "Start": "2025-11-20T11:00:00", "End": "2025-11-20T12:00:00" }]
                                       }
                                   }
@@ -89,9 +89,9 @@ namespace AppointmentManager.Domain.Tests.Services
             Assert.Single(slotsInformation.WorkDays);
             var workDay = slotsInformation.WorkDays.First();
             Assert.Equal(9, workDay.WorkPeriod.StartHour);
-            Assert.Equal(12, workDay.WorkPeriod.EndHour);
-            Assert.Equal(16, workDay.WorkPeriod.LunchStartHour);
-            Assert.Equal(18, workDay.WorkPeriod.LunchEndHour);
+            Assert.Equal(12, workDay.WorkPeriod.LunchStartHour);
+            Assert.Equal(16, workDay.WorkPeriod.LunchEndHour);
+            Assert.Equal(18, workDay.WorkPeriod.EndHour);
             Assert.Single(workDay.BusySlots);
             var busySlot = workDay.BusySlots.First();
             Assert.Equal(new DateTime(2025, 11, 20, 11, 0, 0), busySlot.Start);
@@ -107,7 +107,7 @@ namespace AppointmentManager.Domain.Tests.Services
                                   {
                                       "SlotDurationMinutes": 60,
                                       "Wednesday": {
-                                        "WorkPeriod": { "StartHour": 8, "EndHour": 11, "LunchStartHour": 15, "LunchEndHour": 19 },
+                                        "WorkPeriod": { "StartHour": 8, "LunchStartHour": 11, "LunchEndHour": 15, "EndHour": 19 },
                                   		"BusySlots": [{ "Start": "2025-11-20T15:00:00", "End": "2025-11-20T16:00:00" }]
                                       }
                                   }
@@ -124,9 +124,9 @@ namespace AppointmentManager.Domain.Tests.Services
             Assert.Single(slotsInformation.WorkDays);    
             var workDay = slotsInformation.WorkDays.First();
             Assert.Equal(8, workDay.WorkPeriod.StartHour);
-            Assert.Equal(11, workDay.WorkPeriod.EndHour);
-            Assert.Equal(15, workDay.WorkPeriod.LunchStartHour);
-            Assert.Equal(19, workDay.WorkPeriod.LunchEndHour);
+            Assert.Equal(11, workDay.WorkPeriod.LunchStartHour);
+            Assert.Equal(15, workDay.WorkPeriod.LunchEndHour);
+            Assert.Equal(19, workDay.WorkPeriod.EndHour);
             Assert.Single(workDay.BusySlots);
             var busySlot = workDay.BusySlots.First();
             Assert.Equal(new DateTime(2025, 11, 20, 15, 0, 0), busySlot.Start);
@@ -142,7 +142,7 @@ namespace AppointmentManager.Domain.Tests.Services
                                   {
                                       "SlotDurationMinutes": 60,
                                       "Thursday": {
-                                        "WorkPeriod": { "StartHour": 8, "EndHour": 13, "LunchStartHour": 16, "LunchEndHour": 20 },
+                                        "WorkPeriod": { "StartHour": 8, "LunchStartHour": 13, "LunchEndHour": 16, "EndHour": 20 },
                                   		"BusySlots": [{ "Start": "2025-11-20T17:00:00", "End": "2025-11-20T18:00:00" }]
                                       }
                                   }
@@ -159,9 +159,9 @@ namespace AppointmentManager.Domain.Tests.Services
             Assert.Single(slotsInformation.WorkDays);
             var workDay = slotsInformation.WorkDays.First();
             Assert.Equal(8, workDay.WorkPeriod.StartHour);
-            Assert.Equal(13, workDay.WorkPeriod.EndHour);
-            Assert.Equal(16, workDay.WorkPeriod.LunchStartHour);
-            Assert.Equal(20, workDay.WorkPeriod.LunchEndHour);
+            Assert.Equal(13, workDay.WorkPeriod.LunchStartHour);
+            Assert.Equal(16, workDay.WorkPeriod.LunchEndHour);
+            Assert.Equal(20, workDay.WorkPeriod.EndHour);
             Assert.Single(workDay.BusySlots);
             var busySlot = workDay.BusySlots.First();
             Assert.Equal(new DateTime(2025, 11, 20, 17, 0, 0), busySlot.Start);
@@ -177,7 +177,7 @@ namespace AppointmentManager.Domain.Tests.Services
                                   {
                                       "SlotDurationMinutes": 60,
                                       "Friday": {
-                                        "WorkPeriod": { "StartHour": 8, "EndHour": 14, "LunchStartHour": 16, "LunchEndHour": 19 },
+                                        "WorkPeriod": { "StartHour": 8, "LunchStartHour": 14, "LunchEndHour": 16, "EndHour": 19 },
                                   		"BusySlots": [{ "Start": "2025-11-20T18:00:00", "End": "2025-11-20T19:00:00" }]
                                       }
                                   }
@@ -194,9 +194,9 @@ namespace AppointmentManager.Domain.Tests.Services
             Assert.Single(slotsInformation.WorkDays);
             var workDay = slotsInformation.WorkDays.First();
             Assert.Equal(8, workDay.WorkPeriod.StartHour);
-            Assert.Equal(14, workDay.WorkPeriod.EndHour);
-            Assert.Equal(16, workDay.WorkPeriod.LunchStartHour);
-            Assert.Equal(19, workDay.WorkPeriod.LunchEndHour);
+            Assert.Equal(14, workDay.WorkPeriod.LunchStartHour);
+            Assert.Equal(16, workDay.WorkPeriod.LunchEndHour);
+            Assert.Equal(19, workDay.WorkPeriod.EndHour);
             Assert.Single(workDay.BusySlots);
             var busySlot = workDay.BusySlots.First();
             Assert.Equal(new DateTime(2025, 11, 20, 18, 0, 0), busySlot.Start);
@@ -212,11 +212,11 @@ namespace AppointmentManager.Domain.Tests.Services
                                   {
                                       "SlotDurationMinutes": 60,
                                       "Thursday": {
-                                        "WorkPeriod": { "StartHour": 8, "EndHour": 14, "LunchStartHour": 16, "LunchEndHour": 19 },
+                                        "WorkPeriod": { "StartHour": 8, "LunchStartHour": 14, "LunchEndHour": 16, "EndHour": 19 },
                                     	"BusySlots": [{ "Start": "2025-11-23T18:00:00", "End": "2025-11-23T19:00:00" }]
                                       },
                                       "Friday": {
-                                        "WorkPeriod": { "StartHour": 8, "EndHour": 14, "LunchStartHour": 16, "LunchEndHour": 19 },
+                                        "WorkPeriod": { "StartHour": 8, "LunchStartHour": 14, "LunchEndHour": 16, "EndHour": 19 },
                                   		"BusySlots": [{ "Start": "2025-11-24T18:00:00", "End": "2025-11-24T19:00:00" }]
                                       }
                                   }

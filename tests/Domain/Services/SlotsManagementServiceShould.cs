@@ -25,12 +25,12 @@ namespace AppointmentManager.Domain.Tests.Services
                         new()
                         {
                             Day = dateOnly,
-                            WorkPeriod = new WorkPeriod { StartHour = 10, EndHour = 13, LunchStartHour = 17, LunchEndHour = 19 }
+                            WorkPeriod = new WorkPeriod { StartHour = 10, LunchStartHour = 13, LunchEndHour = 17, EndHour = 19 }
                         },
                         new()
                         {
                             Day = dateOnly.AddDays(1),
-                            WorkPeriod = new WorkPeriod { StartHour = 9, EndHour = 14, LunchStartHour = 16, LunchEndHour = 20 }
+                            WorkPeriod = new WorkPeriod { StartHour = 9, LunchStartHour = 14, LunchEndHour = 16, EndHour = 20 }
                         }
                     }
                 });
@@ -65,7 +65,7 @@ namespace AppointmentManager.Domain.Tests.Services
                     {
                         new WorkDay
                         {
-                            WorkPeriod = new WorkPeriod { StartHour = 10, EndHour = 13, LunchStartHour = 17, LunchEndHour = 19 },
+                            WorkPeriod = new WorkPeriod { StartHour = 10, LunchStartHour = 13, LunchEndHour = 17, EndHour = 19 },
                             BusySlots =
                             [ new BusySlot { Start = new DateTime(2025, 11, 20, 10, 0, 0), End = new DateTime(2025, 11, 20, 11, 0, 0) } ]
                         }

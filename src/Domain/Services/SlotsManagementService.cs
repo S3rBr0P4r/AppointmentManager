@@ -20,11 +20,11 @@ namespace AppointmentManager.Domain.Services
             foreach (var workDay in slotsInformation.WorkDays)
             {
                 var startWorkPeriod = new DateTime(workDay.Day.Year, workDay.Day.Month, workDay.Day.Day, workDay.WorkPeriod.StartHour, 0, 0);
-                var endWorkPeriod = new DateTime(workDay.Day.Year, workDay.Day.Month, workDay.Day.Day, workDay.WorkPeriod.EndHour, 0, 0);
                 var startLunchPeriod = new DateTime(workDay.Day.Year, workDay.Day.Month, workDay.Day.Day, workDay.WorkPeriod.LunchStartHour, 0, 0);
                 var endLunchPeriod = new DateTime(workDay.Day.Year, workDay.Day.Month, workDay.Day.Day, workDay.WorkPeriod.LunchEndHour, 0, 0);
-
-                while (endLunchPeriod > startWorkPeriod)
+                var endWorkPeriod = new DateTime(workDay.Day.Year, workDay.Day.Month, workDay.Day.Day, workDay.WorkPeriod.EndHour, 0, 0);
+                
+                while (endWorkPeriod > startWorkPeriod)
                 {
                     var slot = new Slot
                     {
@@ -38,7 +38,7 @@ namespace AppointmentManager.Domain.Services
                         continue;
                     }
 
-                    if (SlotStartIsInsideWorkPeriod(slot, startWorkPeriod, endWorkPeriod, startLunchPeriod, endLunchPeriod))
+                    if (SlotStartIsInsideWorkPeriod(slot, startWorkPeriod, startLunchPeriod, endLunchPeriod, endWorkPeriod))
                     {
                         availableSlots.Add(slot);
                     }
@@ -61,13 +61,15 @@ namespace AppointmentManager.Domain.Services
 
         private static bool SlotStartIsInsideWorkPeriod(
             Slot slot, 
-            DateTime startWorkPeriod, DateTime endWorkPeriod,
-            DateTime startLunchPeriod, DateTime endLunchPeriod)
+            DateTime startWorkPeriod,
+            DateTime startLunchPeriod,
+            DateTime endLunchPeriod,
+            DateTime endWorkPeriod)
         {
             return (TimeOnly.FromDateTime(slot.Start) >= TimeOnly.FromDateTime(startWorkPeriod) &&
-                    TimeOnly.FromDateTime(slot.Start) < TimeOnly.FromDateTime(endWorkPeriod)) ||
-                   (TimeOnly.FromDateTime(slot.Start) >= TimeOnly.FromDateTime(startLunchPeriod) &&
-                    TimeOnly.FromDateTime(slot.Start) < TimeOnly.FromDateTime(endLunchPeriod));
+                    TimeOnly.FromDateTime(slot.Start) < TimeOnly.FromDateTime(startLunchPeriod)) ||
+                   (TimeOnly.FromDateTime(slot.Start) >= TimeOnly.FromDateTime(endLunchPeriod) &&
+                    TimeOnly.FromDateTime(slot.Start) < TimeOnly.FromDateTime(endWorkPeriod));
         }
     }
 }
