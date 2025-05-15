@@ -24,7 +24,7 @@ namespace AppointmentManager.Domain.Services
             var requestUri = $"{EndpointName}/{dateRequestParameter}";
             using var response = await _httpClient.GetAsync(requestUri, cancellationToken);
             var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
-            if (DateRequestedToSlotServiceIsNotMonday(response, responseContent)) throw new ArgumentException($"DateTime '{date}' must be Monday");
+            if (DateRequestedToSlotServiceIsNotMonday(response, responseContent)) throw new ArgumentException($"Date '{date}' must be Monday");
             if (SlotServiceIsDown(response)) throw new TimeoutException("Slot service is down and work days shift cannot be retrieved");
             
             dynamic jsonContent = JsonConvert.DeserializeObject(responseContent);

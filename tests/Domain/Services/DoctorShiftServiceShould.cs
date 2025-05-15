@@ -252,7 +252,7 @@ namespace AppointmentManager.Domain.Tests.Services
             var exception = Assert.ThrowsAsync<ArgumentException>(async () => await sut.GetSlotsInformationAsync(dateOnly, CancellationToken.None));
 
             // Assert
-            Assert.Contains($"DateTime '{dateOnly}' must be Monday", exception.Result.Message);
+            Assert.Contains($"Date '{dateOnly}' must be Monday", exception.Result.Message);
         }
 
         [Fact]
