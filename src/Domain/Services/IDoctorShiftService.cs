@@ -4,6 +4,6 @@ namespace AppointmentManager.Domain.Services
 {
     public interface IDoctorShiftService
     {
-        public Task<SlotsInformation> GetSlotsInformationAsync(DateOnly date);
+        public Task<SlotsInformation> GetSlotsInformationAsync(DateOnly date, CancellationToken cancellationToken);
     }
 }

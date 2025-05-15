@@ -22,7 +22,7 @@ namespace AppointmentManager.Domain.Tests.Services
             var sut = new DoctorShiftService(dateRequestFormatter, client);
 
             // Act
-            var slotsInformation = await sut.GetSlotsInformationAsync(dateOnly);
+            var slotsInformation = await sut.GetSlotsInformationAsync(dateOnly, CancellationToken.None);
 
             // Assert
             Assert.Equal(60, slotsInformation.SlotDurationMinutes);
@@ -48,7 +48,7 @@ namespace AppointmentManager.Domain.Tests.Services
             var sut = new DoctorShiftService(dateRequestFormatter, client);
 
             // Act
-            var slotsInformation = await sut.GetSlotsInformationAsync(dateOnly);
+            var slotsInformation = await sut.GetSlotsInformationAsync(dateOnly, CancellationToken.None);
 
             // Assert
             Assert.Single(slotsInformation.WorkDays);
@@ -83,7 +83,7 @@ namespace AppointmentManager.Domain.Tests.Services
             var sut = new DoctorShiftService(dateRequestFormatter, client);
 
             // Act
-            var slotsInformation = await sut.GetSlotsInformationAsync(dateOnly);
+            var slotsInformation = await sut.GetSlotsInformationAsync(dateOnly, CancellationToken.None);
 
             // Assert
             Assert.Single(slotsInformation.WorkDays);
@@ -118,7 +118,7 @@ namespace AppointmentManager.Domain.Tests.Services
             var sut = new DoctorShiftService(dateRequestFormatter, client);
 
             // Act
-            var slotsInformation = await sut.GetSlotsInformationAsync(dateOnly);
+            var slotsInformation = await sut.GetSlotsInformationAsync(dateOnly, CancellationToken.None);
 
             // Assert
             Assert.Single(slotsInformation.WorkDays);    
@@ -153,7 +153,7 @@ namespace AppointmentManager.Domain.Tests.Services
             var sut = new DoctorShiftService(dateRequestFormatter, client);
 
             // Act
-            var slotsInformation = await sut.GetSlotsInformationAsync(dateOnly);
+            var slotsInformation = await sut.GetSlotsInformationAsync(dateOnly, CancellationToken.None);
 
             // Assert
             Assert.Single(slotsInformation.WorkDays);
@@ -188,7 +188,7 @@ namespace AppointmentManager.Domain.Tests.Services
             var sut = new DoctorShiftService(dateRequestFormatter, client);
 
             // Act
-            var slotsInformation = await sut.GetSlotsInformationAsync(dateOnly);
+            var slotsInformation = await sut.GetSlotsInformationAsync(dateOnly, CancellationToken.None);
 
             // Assert
             Assert.Single(slotsInformation.WorkDays);
@@ -227,7 +227,7 @@ namespace AppointmentManager.Domain.Tests.Services
             var sut = new DoctorShiftService(dateRequestFormatter, client);
 
             // Act
-            var slotsInformation = await sut.GetSlotsInformationAsync(dateOnly);
+            var slotsInformation = await sut.GetSlotsInformationAsync(dateOnly, CancellationToken.None);
 
             // Assert
             Assert.Equal(2, slotsInformation.WorkDays.Count());
@@ -249,7 +249,7 @@ namespace AppointmentManager.Domain.Tests.Services
             var sut = new DoctorShiftService(dateRequestFormatter, client);
 
             // Act
-            var exception = Assert.ThrowsAsync<ArgumentException>(async () => await sut.GetSlotsInformationAsync(dateOnly));
+            var exception = Assert.ThrowsAsync<ArgumentException>(async () => await sut.GetSlotsInformationAsync(dateOnly, CancellationToken.None));
 
             // Assert
             Assert.Contains($"DateTime '{dateOnly}' must be Monday", exception.Result.Message);
@@ -267,7 +267,7 @@ namespace AppointmentManager.Domain.Tests.Services
             var sut = new DoctorShiftService(dateRequestFormatter, client);
 
             // Act
-            var exception = Assert.ThrowsAsync<TimeoutException>(async () => await sut.GetSlotsInformationAsync(dateOnly));
+            var exception = Assert.ThrowsAsync<TimeoutException>(async () => await sut.GetSlotsInformationAsync(dateOnly, CancellationToken.None));
 
             // Assert
             Assert.Contains("Slot service is down and work days shift cannot be retrieved", exception.Result.Message);

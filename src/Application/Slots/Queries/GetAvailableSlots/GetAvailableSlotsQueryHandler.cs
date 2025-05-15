@@ -12,9 +12,9 @@ namespace AppointmentManager.Application.Slots.Queries.GetAvailableSlots
             _slotsManagementService = slotsManagementService;
         }
 
-        public async Task<IEnumerable<Slot>> Handle(GetAvailableSlotsQuery query, CancellationToken cancellation)
+        public async Task<IEnumerable<Slot>> Handle(GetAvailableSlotsQuery query, CancellationToken cancellationToken)
         {
-            return await _slotsManagementService.GetAvailableSlotsAsync(query.Date);
+            return await _slotsManagementService.GetAvailableSlotsAsync(query.Date, cancellationToken);
         }
     }
 }

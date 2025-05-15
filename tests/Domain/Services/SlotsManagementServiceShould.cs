@@ -16,7 +16,7 @@ namespace AppointmentManager.Domain.Tests.Services
             var dateOnly = new DateOnly(2025, 11, 20);
             var doctorShiftService = new Mock<IDoctorShiftService>();
             doctorShiftService
-                .Setup(dss => dss.GetSlotsInformationAsync(dateOnly))
+                .Setup(dss => dss.GetSlotsInformationAsync(dateOnly, CancellationToken.None))
                 .ReturnsAsync(() => new SlotsInformation
                 {
                     SlotDurationMinutes = slotDurationMinutes,
@@ -38,7 +38,7 @@ namespace AppointmentManager.Domain.Tests.Services
             var sut = new SlotsManagementService(doctorShiftService.Object);
 
             // Act
-            var slots = (await sut.GetAvailableSlotsAsync(dateOnly)).ToList();
+            var slots = (await sut.GetAvailableSlotsAsync(dateOnly, CancellationToken.None)).ToList();
 
             // Assert
             Assert.Equal(expectedAvailableSlotsForFirstWorkDay + expectedAvailableSlotsForSecondWorkDay, slots.Count);
@@ -57,7 +57,7 @@ namespace AppointmentManager.Domain.Tests.Services
             var expectedAvailableSlots = 4;
             var doctorShiftService = new Mock<IDoctorShiftService>();
             doctorShiftService
-                .Setup(dss => dss.GetSlotsInformationAsync(dateOnly))
+                .Setup(dss => dss.GetSlotsInformationAsync(dateOnly, CancellationToken.None))
                 .ReturnsAsync(() => new SlotsInformation
                 {
                     SlotDurationMinutes = slotDurationMinutes,
@@ -75,7 +75,7 @@ namespace AppointmentManager.Domain.Tests.Services
             var sut = new SlotsManagementService(doctorShiftService.Object);
 
             // Act
-            var slots = await sut.GetAvailableSlotsAsync(dateOnly);
+            var slots = await sut.GetAvailableSlotsAsync(dateOnly, CancellationToken.None);
 
             // Assert
             Assert.Equal(expectedAvailableSlots, slots.Count());

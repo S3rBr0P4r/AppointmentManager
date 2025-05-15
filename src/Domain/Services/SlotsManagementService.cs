@@ -12,10 +12,10 @@ namespace AppointmentManager.Domain.Services
             _doctorShiftService = doctorShiftService;
         }
 
-        public async Task<IEnumerable<Slot>> GetAvailableSlotsAsync(DateOnly date)
+        public async Task<IEnumerable<Slot>> GetAvailableSlotsAsync(DateOnly date, CancellationToken cancellationToken)
         {
             var availableSlots = new List<Slot>();
-            var slotsInformation = await _doctorShiftService.GetSlotsInformationAsync(date);
+            var slotsInformation = await _doctorShiftService.GetSlotsInformationAsync(date, cancellationToken);
 
             foreach (var workDay in slotsInformation.WorkDays)
             {

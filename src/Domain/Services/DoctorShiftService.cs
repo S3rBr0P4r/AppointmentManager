@@ -16,12 +16,12 @@ namespace AppointmentManager.Domain.Services
             _httpClient = httpClient;
         }
 
-        public async Task<SlotsInformation> GetSlotsInformationAsync(DateOnly date)
+        public async Task<SlotsInformation> GetSlotsInformationAsync(DateOnly date, CancellationToken cancellationToken)
         {
             var slotsInformation = new SlotsInformation();
             var dateRequestParameter = _dateRequestFormatter.GetCompatibleDateWithSlotService(date);
-            using var response = await _httpClient.GetAsync(dateRequestParameter);
-            var responseContent = await response.Content.ReadAsStringAsync();
+            using var response = await _httpClient.GetAsync(dateRequestParameter, cancellationToken);
+            var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
             if (DateRequestedToSlotServiceIsNotMonday(response, responseContent)) throw new ArgumentException($"DateTime '{date}' must be Monday");
             if (SlotServiceIsDown(response)) throw new TimeoutException("Slot service is down and work days shift cannot be retrieved");
             
