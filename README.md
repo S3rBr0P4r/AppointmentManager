@@ -23,6 +23,7 @@ to book it.
 | Mock frameworks  | Moq |
 | Software architecture patterns | RESTful API design
 | Design patterns | CQRS
+| | Builder
 | | SOLID principles
 | Development tools | Visual Studio Professional 2022, Version 17.13.6
 | | Visual Studio Code 1.100.1
