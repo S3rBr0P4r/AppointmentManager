@@ -21,8 +21,8 @@ builder.Services.AddHttpClient<IDoctorShiftService, DoctorShiftService>(client =
             Convert.ToBase64String(Encoding.ASCII.GetBytes($"{slotServiceUserName}:{slotServicePassword}")));
 });
 
-builder.Services.AddExceptionHandler<InternalServerErrorExceptionHandler>();
 builder.Services.AddExceptionHandler<BadRequestExceptionHandler>();
+builder.Services.AddExceptionHandler<InternalServerErrorExceptionHandler>();
 builder.Services.AddProblemDetails();
 
 builder.Services.AddControllers();
