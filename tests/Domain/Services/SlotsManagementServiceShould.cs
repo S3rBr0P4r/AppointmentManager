@@ -49,7 +49,7 @@ namespace AppointmentManager.Domain.Tests.Services
         }
 
         [Fact]
-        public async Task ReturnSlotsForMondayHavingBusySlots()
+        public async Task ReturnSlotsTakingCareBusySlots()
         {
             // Arrange
             var dateOnly = new DateOnly(2025, 11, 20);
@@ -65,6 +65,7 @@ namespace AppointmentManager.Domain.Tests.Services
                     {
                         new WorkDay
                         {
+                            Day = dateOnly,
                             WorkPeriod = new WorkPeriod { StartHour = 10, LunchStartHour = 13, LunchEndHour = 17, EndHour = 19 },
                             BusySlots =
                             [ new BusySlot { Start = new DateTime(2025, 11, 20, 10, 0, 0), End = new DateTime(2025, 11, 20, 11, 0, 0) } ]
