@@ -6,11 +6,32 @@ that the patient will be able to see available slots and book an appointment.
 The user should be able to see slots by week, select one and fill in the required data
 to book it.
 
-## How to run the app
+## Steps to run Appointment Manager
+
+1. Build the solution
+
+2. Set as startup project `AppointmentManager.Presentation` and run the application using the profile `Development`. Swagger must be visible on `http://localhost:5292`
 
 
-## Stack used
-* Backend
-    * .NET 8.0
-* Frontend
-    * Swagger
+## Project configuration
+
+| Scope  | Resources(s)  |
+|---|---|
+| Backend | .NET 8 LTS  |
+| Frontend  | Swagger |
+| Testing  | xUnit |
+| Mock frameworks  | Moq |
+| Software architecture patterns | RESTful API design
+| Design patterns | CQRS
+| | SOLID principles
+| Development tools | Visual Studio Professional 2022, Version 17.13.6
+| | Visual Studio Code 1.100.1
+
+## Observations
+
+In this project, clean architecture has been applied as better as possible. Any feedback about it is more than welcome.
+
+## Next steps
+
+* Improve logging using Serilog instead of ILogger
+* Add authorization in API write operations
