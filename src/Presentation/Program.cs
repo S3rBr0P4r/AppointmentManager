@@ -1,6 +1,7 @@
 using System.Text;
 using AppointmentManager.Domain.Services;
 using AppointmentManager.Presentation;
+using AppointmentManager.Presentation.ExceptionHandlers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,10 @@ builder.Services.AddHttpClient<IDoctorShiftService, DoctorShiftService>(client =
                 Encoding.ASCII.GetBytes($"{slotServiceEndpointUserName}:{slotServiceEndpointPassword}")));
 });
 
+builder.Services.AddExceptionHandler<InternalServerErrorExceptionHandler>();
+builder.Services.AddExceptionHandler<BadRequestExceptionHandler>();
+builder.Services.AddProblemDetails();
+
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -31,6 +36,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseExceptionHandler();
 
 app.UseAuthorization();
 

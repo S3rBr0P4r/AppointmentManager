@@ -1,0 +1,41 @@
+﻿using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+
+namespace AppointmentManager.Presentation.ExceptionHandlers
+{
+    public class InternalServerErrorExceptionHandler : IExceptionHandler
+    {
+        private readonly ILogger<BadRequestExceptionHandler> _logger;
+
+        public InternalServerErrorExceptionHandler(ILogger<BadRequestExceptionHandler> logger)
+        {
+            _logger = logger;
+        }
+
+        public async ValueTask<bool> TryHandleAsync(
+            HttpContext httpContext,
+            Exception exception,
+            CancellationToken cancellationToken)
+        {
+            if (exception is not TimeoutException timeoutException)
+            {
+                return false;
+            }
+
+            _logger.LogError(timeoutException, "Exception occurred: {Message}", timeoutException.Message);
+
+            var problemDetails = new ProblemDetails
+            {
+                Status = StatusCodes.Status500InternalServerError,
+                Title = "Internal Server Error",
+                Detail = timeoutException.Message
+            };
+
+            httpContext.Response.StatusCode = problemDetails.Status.Value;
+
+            await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
+
+            return true;
+        }
+    }
+}
