@@ -17,18 +17,13 @@ namespace AppointmentManager.Presentation.ExceptionHandlers
             Exception exception,
             CancellationToken cancellationToken)
         {
-            if (exception is not TimeoutException timeoutException)
-            {
-                return false;
-            }
-
-            _logger.LogError(timeoutException, "Exception occurred: {Message}", timeoutException.Message);
+            _logger.LogError(exception, "Exception occurred: {Message}", exception.Message);
 
             var problemDetails = new ProblemDetails
             {
                 Status = StatusCodes.Status500InternalServerError,
                 Title = "Internal Server Error",
-                Detail = timeoutException.Message
+                Detail = exception.Message
             };
 
             httpContext.Response.StatusCode = problemDetails.Status.Value;

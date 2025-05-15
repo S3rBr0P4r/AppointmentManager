@@ -3,8 +3,8 @@
     public class WorkDay
     {
         public DateOnly Day { get; set; }
-        public WorkPeriod WorkPeriod { get; set; } = new WorkPeriod();
+        public WorkPeriod WorkPeriod { get; set; } = new();
 
-        public List<BusySlot> BusySlots { get; set; } = new List<BusySlot>();
+        public List<BusySlot> BusySlots { get; set; } = [];
     }
 }
