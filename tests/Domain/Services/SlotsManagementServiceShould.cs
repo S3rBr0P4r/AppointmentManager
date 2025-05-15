@@ -1,3 +1,6 @@
+using System;
+using System.Net;
+using AppointmentManager.Domain.Entities;
 using AppointmentManager.Domain.Models;
 using AppointmentManager.Domain.Services;
 using Moq;
@@ -79,6 +82,35 @@ namespace AppointmentManager.Domain.Tests.Services
 
             // Assert
             Assert.Equal(expectedAvailableSlots, slots.Count());
+        }
+
+        [Fact]
+        public void ThrowsBadRequestExceptionWhenSlotIsNotSuccessfullyBookedByPatient()
+        {
+            // Arrange
+            var facilityId = Guid.NewGuid().ToString();
+            var appointment = new Appointment(facilityId, "Pain in left arm",
+                new Patient("Sergio", "Brotons", "s3rbr0p4r@email.com", "555 66 77 88"))
+            {
+                Start = new DateTime(2025, 11, 20, 10, 0, 0),
+                End = new DateTime(2025, 11, 20, 11, 0, 0),
+            };
+            var doctorShiftService = new Mock<IDoctorShiftService>();
+            doctorShiftService
+                .Setup(dss => dss.AddSlotToShiftAsync(
+                    It.Is<Appointment>(a => a.FacilityId.Equals(facilityId)),
+                    CancellationToken.None))
+                .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.BadRequest)
+                {
+                    Content = new StringContent("Valid slot required")
+                });
+            var sut = new SlotsManagementService(doctorShiftService.Object);
+
+            // Act
+            var exception = Assert.ThrowsAsync<ArgumentException>(async () => await sut.TakeSlotAsync(appointment, CancellationToken.None));
+
+            // Assert
+            Assert.Contains("Valid slot required", exception.Result.Message);
         }
     }
 }
