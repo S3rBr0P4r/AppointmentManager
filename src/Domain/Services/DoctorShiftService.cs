@@ -7,6 +7,7 @@ namespace AppointmentManager.Domain.Services
 {
     public class DoctorShiftService : IDoctorShiftService
     {
+        private const string EndpointName = "GetWeeklyAvailability";
         private readonly IDateRequestFormatter _dateRequestFormatter;
         private readonly HttpClient _httpClient;
 
@@ -20,7 +21,8 @@ namespace AppointmentManager.Domain.Services
         {
             var slotsInformation = new SlotsInformation();
             var dateRequestParameter = _dateRequestFormatter.GetCompatibleDateWithSlotService(date);
-            using var response = await _httpClient.GetAsync(dateRequestParameter, cancellationToken);
+            var requestUri = $"{EndpointName}/{dateRequestParameter}";
+            using var response = await _httpClient.GetAsync(requestUri, cancellationToken);
             var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
             if (DateRequestedToSlotServiceIsNotMonday(response, responseContent)) throw new ArgumentException($"DateTime '{date}' must be Monday");
             if (SlotServiceIsDown(response)) throw new TimeoutException("Slot service is down and work days shift cannot be retrieved");

@@ -276,7 +276,7 @@ namespace AppointmentManager.Domain.Tests.Services
         private static HttpClient SetupHttpClient(Mock<HttpMessageHandler> handler)
         {
             var client = new HttpClient(handler.Object);
-            client.BaseAddress = new Uri("https://draliatest.azurewebsites.net/api/availability/GetWeeklyAvailability/");
+            client.BaseAddress = new Uri("https://slotServiceUri/");
             return client;
         }
 
@@ -285,7 +285,9 @@ namespace AppointmentManager.Domain.Tests.Services
             var handler = new Mock<HttpMessageHandler>();
             handler
                 .Protected()
-                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .Setup<Task<HttpResponseMessage>>("SendAsync",
+                    ItExpr.Is<HttpRequestMessage>(m => m.RequestUri.AbsolutePath.StartsWith("/GetWeeklyAvailability/")),
+                    ItExpr.IsAny<CancellationToken>())
                 .ReturnsAsync(new HttpResponseMessage
                 {
                     StatusCode = statusCode,

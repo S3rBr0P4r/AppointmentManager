@@ -7,17 +7,18 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddEnvironmentVariables();
 
-builder.Services.AddCoreDependencies();
+builder.Services.AddDomainDependencies();
+builder.Services.AddApplicationDependencies();
+builder.Services.AddInfrastructureDependencies();
 builder.Services.AddHttpClient<IDoctorShiftService, DoctorShiftService>(client =>
 {
-    var slotServiceEndpoint = Environment.GetEnvironmentVariable("SLOT_SERVICE_ENDPOINT");
-    var slotServiceEndpointUserName = Environment.GetEnvironmentVariable("SLOT_SERVICE_ENDPOINT_USERNAME");
-    var slotServiceEndpointPassword = Environment.GetEnvironmentVariable("SLOT_SERVICE_ENDPOINT_PASSWORD");
-    client.BaseAddress = new Uri(slotServiceEndpoint);
+    var slotServiceUri = Environment.GetEnvironmentVariable("SLOT_SERVICE_URI");
+    var slotServiceUserName = Environment.GetEnvironmentVariable("SLOT_SERVICE_USERNAME");
+    var slotServicePassword = Environment.GetEnvironmentVariable("SLOT_SERVICE_PASSWORD");
+    client.BaseAddress = new Uri(slotServiceUri);
     client.DefaultRequestHeaders.Authorization
         = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic",
-            Convert.ToBase64String(
-                Encoding.ASCII.GetBytes($"{slotServiceEndpointUserName}:{slotServiceEndpointPassword}")));
+            Convert.ToBase64String(Encoding.ASCII.GetBytes($"{slotServiceUserName}:{slotServicePassword}")));
 });
 
 builder.Services.AddExceptionHandler<InternalServerErrorExceptionHandler>();

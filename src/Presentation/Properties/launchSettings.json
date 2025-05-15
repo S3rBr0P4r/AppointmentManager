@@ -8,9 +8,9 @@
       "applicationUrl": "http://localhost:5292",
         "environmentVariables": {
             "ASPNETCORE_ENVIRONMENT": "Development",
-            "SLOT_SERVICE_ENDPOINT": "https://draliatest.azurewebsites.net/api/availability/GetWeeklyAvailability/",
-            "SLOT_SERVICE_ENDPOINT_USERNAME": "techuser",
-            "SLOT_SERVICE_ENDPOINT_PASSWORD": "secretpassWord"
+            "SLOT_SERVICE_URI": "https://draliatest.azurewebsites.net/api/availability/",
+            "SLOT_SERVICE_USERNAME": "techuser",
+            "SLOT_SERVICE_PASSWORD": "secretpassWord"
         }
     }
   }
