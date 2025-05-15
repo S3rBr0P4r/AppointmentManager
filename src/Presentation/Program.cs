@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddEnvironmentVariables();
 
 builder.Services.AddCoreDependencies();
-builder.Services.AddHttpClient<ISlotsManagementService, SlotsManagementService>(client =>
+builder.Services.AddHttpClient<IDoctorShiftService, DoctorShiftService>(client =>
 {
     var slotServiceEndpoint = Environment.GetEnvironmentVariable("SLOT_SERVICE_ENDPOINT");
     var slotServiceEndpointUserName = Environment.GetEnvironmentVariable("SLOT_SERVICE_ENDPOINT_USERNAME");
