@@ -1,8 +1,8 @@
 ﻿using AppointmentManager.Domain.Entities;
 
-namespace AppointmentManager.Application.Slots.Commands.TakeSlots
+namespace AppointmentManager.Application.Slots.Commands.TakeSlot
 {
-    public class TakeSlotsCommand
+    public class TakeSlotCommand
     {
         public string FacilityId { get; set; }
         public DateTime Start { get; set; }

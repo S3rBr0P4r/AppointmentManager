@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using AppointmentManager.Application.Slots.Commands.TakeSlots;
+using AppointmentManager.Application.Slots.Commands.TakeSlot;
 using AppointmentManager.Application.Slots.Queries.GetAvailableSlots;
 using AppointmentManager.Domain.Entities;
 using AppointmentManager.Domain.Formatters;
@@ -30,7 +30,7 @@ namespace AppointmentManager.Presentation
         public static IServiceCollection AddApplicationDependencies(this IServiceCollection services)
         {
             services.AddScoped<IQueryHandler<GetAvailableSlotsQuery, IEnumerable<Slot>>, GetAvailableSlotsQueryHandler>();
-            services.AddScoped<ICommandHandler<TakeSlotsCommand, HttpStatusCode>, TakeSlotsCommandHandler>();
+            services.AddScoped<ICommandHandler<TakeSlotCommand, HttpStatusCode>, TakeSlotCommandHandler>();
             return services;
         }
     }

@@ -1,5 +1,5 @@
 using System.Net;
-using AppointmentManager.Application.Slots.Commands.TakeSlots;
+using AppointmentManager.Application.Slots.Commands.TakeSlot;
 using AppointmentManager.Application.Slots.Queries.GetAvailableSlots;
 using AppointmentManager.Domain.Entities;
 using AppointmentManager.Infrastructure.Dispatchers;
@@ -33,9 +33,9 @@ namespace AppointmentManager.Presentation.Controllers
         [HttpPost("Take")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> PostSlot([FromBody] TakeSlotsCommand command, CancellationToken cancellationToken)
+        public async Task<IActionResult> PostSlot([FromBody] TakeSlotCommand command, CancellationToken cancellationToken)
         {
-            var statusCode = await _commandDispatcher.Dispatch<TakeSlotsCommand, HttpStatusCode>(command, cancellationToken);
+            var statusCode = await _commandDispatcher.Dispatch<TakeSlotCommand, HttpStatusCode>(command, cancellationToken);
             if (statusCode == HttpStatusCode.OK)
             {
                 return Accepted();

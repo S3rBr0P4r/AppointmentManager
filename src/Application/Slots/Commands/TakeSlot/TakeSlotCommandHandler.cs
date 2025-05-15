@@ -3,18 +3,18 @@ using AppointmentManager.Domain.Entities;
 using AppointmentManager.Domain.Handlers;
 using AppointmentManager.Domain.Services;
 
-namespace AppointmentManager.Application.Slots.Commands.TakeSlots
+namespace AppointmentManager.Application.Slots.Commands.TakeSlot
 {
-    public class TakeSlotsCommandHandler : ICommandHandler<TakeSlotsCommand, HttpStatusCode>
+    public class TakeSlotCommandHandler : ICommandHandler<TakeSlotCommand, HttpStatusCode>
     {
         private readonly ISlotsManagementService _slotsManagementService;
 
-        public TakeSlotsCommandHandler(ISlotsManagementService slotsManagementService)
+        public TakeSlotCommandHandler(ISlotsManagementService slotsManagementService)
         {
             _slotsManagementService = slotsManagementService;
         }
 
-        public async Task<HttpStatusCode> Handle(TakeSlotsCommand command, CancellationToken cancellationToken)
+        public async Task<HttpStatusCode> Handle(TakeSlotCommand command, CancellationToken cancellationToken)
         {
             var appointment = new Appointment(command.FacilityId, command.Comments, command.Patient)
             {

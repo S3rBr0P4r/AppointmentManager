@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using AppointmentManager.Application.Slots.Commands.TakeSlots;
+using AppointmentManager.Application.Slots.Commands.TakeSlot;
 using AppointmentManager.Domain.Entities;
 using AppointmentManager.Domain.Services;
 using Moq;
@@ -14,12 +14,12 @@ namespace AppointmentManager.Application.Tests.Slots.Commands.TakeSlots
         {
             // Arrange
             var facilityId = Guid.NewGuid().ToString();
-            var command = new TakeSlotsCommand
+            var command = new TakeSlotCommand
             {
                 FacilityId = facilityId
             };
             var slotsManagementService = new Mock<ISlotsManagementService>();
-            var sut = new TakeSlotsCommandHandler(slotsManagementService.Object);
+            var sut = new TakeSlotCommandHandler(slotsManagementService.Object);
 
             // Act
             await sut.Handle(command, CancellationToken.None);
@@ -35,7 +35,7 @@ namespace AppointmentManager.Application.Tests.Slots.Commands.TakeSlots
         {
             // Arrange
             var facilityId = Guid.NewGuid().ToString();
-            var command = new TakeSlotsCommand
+            var command = new TakeSlotCommand
             {
                 FacilityId = facilityId
             };
@@ -43,7 +43,7 @@ namespace AppointmentManager.Application.Tests.Slots.Commands.TakeSlots
             slotsManagementService.Setup(sms => sms.TakeSlotAsync(
                 It.Is<Appointment>(a => a.FacilityId.Equals(facilityId)),
                 CancellationToken.None)).ReturnsAsync(HttpStatusCode.OK);
-            var sut = new TakeSlotsCommandHandler(slotsManagementService.Object);
+            var sut = new TakeSlotCommandHandler(slotsManagementService.Object);
 
             // Act
             var statusCode = await sut.Handle(command, CancellationToken.None);
