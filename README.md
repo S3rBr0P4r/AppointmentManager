@@ -23,6 +23,9 @@ to book it.
 * Every endpoint contains documentation and examples for better understanding.
 * This project has been done using clean architecture as better as possible.
 Any feedback about it is more than welcome.
+* **Branching strategy in this project due to the lack of a team. Within a team, it would have been wiser that each feature of the application would have been created in its branch and merged to master after:**
+    * Create a Pull Request with further information about the changes
+    * Code Review done by the team
 * Requirements provided in the document were not accurate, finding the following issues:
     - The endpoint `https://draliatest.azurewebsites.net/api/availability/  GetWeeklyAvailability/` from Slot service does not provide the information provided in the document. It also provides the `Facility Id`, being required to take slots.
 
