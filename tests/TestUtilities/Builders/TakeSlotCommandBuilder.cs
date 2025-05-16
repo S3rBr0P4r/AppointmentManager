@@ -1,7 +1,7 @@
 ﻿using AppointmentManager.Application.Slots.Commands.TakeSlot;
 using AppointmentManager.Domain.Entities;
 
-namespace AppointmentManager.Application.Tests.Slots.Commands.TakeSlots
+namespace AppointmentManager.TestUtilities.Builders
 {
     public class TakeSlotCommandBuilder
     {

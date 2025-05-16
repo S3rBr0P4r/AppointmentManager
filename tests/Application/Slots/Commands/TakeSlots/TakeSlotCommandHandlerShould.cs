@@ -2,6 +2,7 @@
 using AppointmentManager.Application.Slots.Commands.TakeSlot;
 using AppointmentManager.Domain.Entities;
 using AppointmentManager.Domain.Services;
+using AppointmentManager.TestUtilities.Builders;
 using Moq;
 using Xunit;
 

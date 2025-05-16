@@ -43,7 +43,7 @@ namespace AppointmentManager.Presentation.Controllers.v1
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [SwaggerResponseExample(StatusCodes.Status200OK, typeof(SlotExample))]
         [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemDetailsExample))]
-        public async Task<IActionResult> GetAvailableSlots([FromQuery, BindRequired] DateOnly date, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAvailableSlotsAsync([FromQuery, BindRequired] DateOnly date, CancellationToken cancellationToken)
         {
             var query = new GetAvailableSlotsQuery(date);
             var slots = await _queryDispatcher.Dispatch<GetAvailableSlotsQuery, IEnumerable<Slot>>(query, cancellationToken);
@@ -65,7 +65,7 @@ namespace AppointmentManager.Presentation.Controllers.v1
         [Consumes(MediaTypeNames.Application.Json)]
         [SwaggerRequestExample(typeof(TakeSlotCommand), typeof(TakeSlotCommandExample))]
         [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemDetailsExample))]
-        public async Task<IActionResult> PostSlot([FromBody, BindRequired] TakeSlotCommand command, CancellationToken cancellationToken)
+        public async Task<IActionResult> TakeSlotAsync([FromBody, BindRequired] TakeSlotCommand command, CancellationToken cancellationToken)
         {
             var statusCode = await _commandDispatcher.Dispatch<TakeSlotCommand, HttpStatusCode>(command, cancellationToken);
             if (statusCode == HttpStatusCode.OK)
