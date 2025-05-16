@@ -4,11 +4,14 @@
   </PropertyGroup>
   <!-- Source code -->
   <ItemGroup>
+    <PackageVersion Include="Asp.Versioning.Mvc" Version="8.1.0" />
+    <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
     <PackageVersion Include="FluentValidation" Version="12.0.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Diagnostics" Version="2.3.0" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="8.1.1" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.5" />
+    <PackageVersion Include="Swashbuckle.AspNetCore.Filters" Version="8.0.3" />
   </ItemGroup>
   <!-- Test code -->
   <ItemGroup>

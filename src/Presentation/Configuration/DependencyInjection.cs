@@ -7,8 +7,10 @@ using AppointmentManager.Domain.Handlers;
 using AppointmentManager.Domain.Services;
 using AppointmentManager.Infrastructure.Dispatchers;
 using AppointmentManager.Infrastructure.Handlers;
+using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace AppointmentManager.Presentation
+namespace AppointmentManager.Presentation.Configuration
 {
     public static class DependencyInjection
     {
@@ -31,6 +33,12 @@ namespace AppointmentManager.Presentation
         {
             services.AddScoped<IQueryHandler<GetAvailableSlotsQuery, IEnumerable<Slot>>, GetAvailableSlotsQueryHandler>();
             services.AddScoped<ICommandHandler<TakeSlotCommand, HttpStatusCode>, TakeSlotCommandHandler>();
+            return services;
+        }
+
+        public static IServiceCollection AddPresentationDependencies(this IServiceCollection services)
+        {
+            services.AddTransient<IConfigureOptions<SwaggerGenOptions>, SwaggerOptions>();
             return services;
         }
     }

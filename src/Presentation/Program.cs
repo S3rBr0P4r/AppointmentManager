@@ -1,28 +1,17 @@
-using System.Text;
-using AppointmentManager.Domain.Services;
-using AppointmentManager.Presentation;
-using AppointmentManager.Presentation.ExceptionHandlers;
+using AppointmentManager.Presentation.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddEnvironmentVariables();
-
+builder.Services.AddPresentationDependencies();
 builder.Services.AddDomainDependencies();
 builder.Services.AddApplicationDependencies();
 builder.Services.AddInfrastructureDependencies();
-builder.Services.AddHttpClient<IDoctorShiftService, DoctorShiftService>(client =>
-{
-    var slotServiceUri = Environment.GetEnvironmentVariable("SLOT_SERVICE_URI");
-    var slotServiceUserName = Environment.GetEnvironmentVariable("SLOT_SERVICE_USERNAME");
-    var slotServicePassword = Environment.GetEnvironmentVariable("SLOT_SERVICE_PASSWORD");
-    client.BaseAddress = new Uri(slotServiceUri);
-    client.DefaultRequestHeaders.Authorization
-        = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic",
-            Convert.ToBase64String(Encoding.ASCII.GetBytes($"{slotServiceUserName}:{slotServicePassword}")));
-});
 
-builder.Services.AddExceptionHandler<BadRequestExceptionHandler>();
-builder.Services.AddExceptionHandler<InternalServerErrorExceptionHandler>();
+builder.Services.ConfigureHttpClients();
+builder.Services.ConfigureVersioning();
+
+builder.Services.AddExceptionsHandlers();
 builder.Services.AddProblemDetails();
 
 builder.Services.AddControllers();
@@ -34,8 +23,7 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.EnableSwagger();
 }
 
 app.UseExceptionHandler();

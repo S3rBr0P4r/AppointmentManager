@@ -8,6 +8,8 @@
       "applicationUrl": "http://localhost:5292",
         "environmentVariables": {
             "ASPNETCORE_ENVIRONMENT": "Development",
+            // These values are here for testing purposes. Ideally, these ones should come from outside to improve the security,
+            // like AWS Secrets Manager
             "SLOT_SERVICE_URI": "https://draliatest.azurewebsites.net/api/availability/",
             "SLOT_SERVICE_USERNAME": "techuser",
             "SLOT_SERVICE_PASSWORD": "secretpassWord"
