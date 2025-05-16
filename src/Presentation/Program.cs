@@ -14,7 +14,9 @@ builder.Services.ConfigureVersioning();
 builder.Services.AddExceptionsHandlers();
 builder.Services.AddProblemDetails();
 
-builder.Services.AddControllers();
+builder.Services
+    .AddControllers()
+    .AddNewtonsoftJson();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
