@@ -6,12 +6,31 @@ that the patient will be able to see available slots and book an appointment.
 The user should be able to see slots by week, select one and fill in the required data
 to book it.
 
-## Steps to run Appointment Manager
+## How to use Appointment Manager
 
-1. Build the solution
+1. Build the solution using the file `AppointmentManager.sln`.
 
-2. Set as startup project `AppointmentManager.Presentation` and run the application using the profile `Development`. Swagger must be visible on `http://localhost:5292`
+2. Set as startup project `AppointmentManager.Presentation` and run the application using the profile `Development`. Swagger must be visible on `http://localhost:5292/swagger/index.html`.
 
+![Swagger available](./documentation/images/swagger_available.png)
+
+3. Execute the `GET` endpoint to receive a collection of available slots with your doctor.
+
+4. Once the desired slot is detected, please use the `POST` endpoint to take that slot.
+
+## Observations
+
+* Every endpoint contains documentation and examples for better understanding.
+* This project has been done using clean architecture as better as possible.
+Any feedback about it is more than welcome.
+* Requirements provided in the document were not accurate, finding the following issues:
+    - The endpoint `https://draliatest.azurewebsites.net/api/availability/  GetWeeklyAvailability/` from Slot service does not provide the information provided in the document. It also provides the `Facility Id`, being required to take slots.
+
+        ![Get response from Slot service](./documentation/images/slot_service_get_response.png)
+
+    - The body used in the endpoint `https://draliatest.azurewebsites.net/api/availability/TakeSlot` requires the Facility Id, otherwise a bad request is received.
+
+        ![Post response from Slot service](./documentation/images/slot_service_post_facilityId_required.png)
 
 ## Project configuration
 
@@ -28,11 +47,8 @@ to book it.
 | Development tools | Visual Studio Professional 2022, Version 17.13.6
 | | Visual Studio Code 1.100.1
 
-## Observations
+## Next steps, based on product requirements
 
-In this project, clean architecture has been applied as better as possible. Any feedback about it is more than welcome.
-
-## Next steps
-
-* Improve logging using Serilog instead of ILogger
-* Add authorization in API write operations
+* Add authorization in API write operations to increase security
+* Improve logging using Serilog instead of ILogger to send logs to Datadog
+* Increase test coverage, specially on end to end tests
