@@ -14,7 +14,7 @@ to book it.
 
 3. Set as startup project `AppointmentManager.Presentation` and run the application using the profile `Development`. Swagger must be visible on `http://localhost:5292/swagger/index.html`.
 
-    :information_source:  Application can begin using `Start Without Debugging`
+    :information_source:  Application can be started using `Start Without Debugging`
 
 4. To use correctly the application, click on `Authorize` and introduce the required user name and password
 
@@ -30,11 +30,11 @@ to book it.
 * Every endpoint contains documentation and examples for better understanding.
 * This project has been done using clean architecture as better as possible.
 Any feedback about it is more than welcome.
-* **Branching strategy in this project due to the lack of a team. Within a team, it would have been wiser that each feature of the application would have been created in its branch and merged to master after:**
+* **Branching strategy in this project has not been used due to the lack of a team. Within a team, it would have been wiser that each feature of the application would have been created in its branch and merged to master after:**
     * Create a Pull Request with further information about the changes
     * Code Review done by the team
 * Requirements provided in the document were not accurate, finding the following issues:
-    - The endpoint `https://draliatest.azurewebsites.net/api/availability/  GetWeeklyAvailability/` from Slot service does not provide the information provided in the document. It also provides the `Facility Id`, being required to take slots.
+    - The endpoint `https://draliatest.azurewebsites.net/api/availability/GetWeeklyAvailability/` from Slot service does not provide the same information written in the document, having a new property named `Facility Id`, which is mandatory to take slots.
 
         ![Get response from Slot service](./documentation/images/slot_service_get_response.png)
 
