@@ -190,7 +190,7 @@ namespace AppointmentManager.Domain.Tests.Services
             var sut = new SlotsManagementService(logger.Object, doctorShiftService.Object);
 
             // Act
-            var statusCode = await sut.TakeSlotAsync(appointment, CancellationToken.None);
+            await sut.TakeSlotAsync(appointment, CancellationToken.None);
 
             // Assert
             logger.Verify(l =>

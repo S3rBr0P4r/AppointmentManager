@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace AppointmentManager.Presentation.Configuration
@@ -13,6 +14,28 @@ namespace AppointmentManager.Presentation.Configuration
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 s.IncludeXmlComments(xmlPath);
                 s.ExampleFilters();
+                s.AddSecurityDefinition("basic", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "basic",
+                    In = ParameterLocation.Header,
+                    Description = "Basic Authorization header using the Bearer scheme."
+                });
+                s.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "basic"
+                            }
+                        },
+                        []
+                    }
+                });
             });
             services.AddSwaggerExamplesFromAssemblyOf<Program>();
             return services;

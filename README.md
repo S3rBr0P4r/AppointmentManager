@@ -8,18 +8,25 @@ to book it.
 
 ## How to use Appointment Manager
 
-1. Build the solution using the file `AppointmentManager.sln`.
+1. Open the solution in Visual Studio using the file `AppointmentManager.sln`.
 
-2. Set as startup project `AppointmentManager.Presentation` and run the application using the profile `Development`. Swagger must be visible on `http://localhost:5292/swagger/index.html`.
+2. Build the solution.
 
-![Swagger available](./documentation/images/swagger_available.png)
+3. Set as startup project `AppointmentManager.Presentation` and run the application using the profile `Development`. Swagger must be visible on `http://localhost:5292/swagger/index.html`.
 
-3. Execute the `GET` endpoint to receive a collection of available slots with your doctor.
+    :information_source:  Application can begin using `Start Without Debugging`
 
-4. Once the desired slot is detected, please use the `POST` endpoint to take that slot.
+4. To use correctly the application, click on `Authorize` and introduce the required user name and password
+
+    ![Swagger available](./documentation/images/swagger_available.png)
+
+5. Execute the `GET` endpoint to receive a collection of available slots with your doctor.
+
+6. Once the desired slot is detected, please use the `POST` endpoint to take that slot.
 
 ## Observations
 
+* For simplicity, **all sensitive data is available in the file `launchSettings.json`**
 * Every endpoint contains documentation and examples for better understanding.
 * This project has been done using clean architecture as better as possible.
 Any feedback about it is more than welcome.
@@ -53,5 +60,7 @@ Any feedback about it is more than welcome.
 
 ## Next steps, based on product requirements
 
-* Add authorization in API write operations to increase security
+* Configure OpenTelemetry to send metrics to DataDog
 * Increase test coverage, specially on end to end tests
+* Upgrade to .NET 9
+* Add CI/CD pipelines

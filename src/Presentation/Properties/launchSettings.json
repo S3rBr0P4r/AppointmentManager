@@ -8,11 +8,12 @@
       "applicationUrl": "http://localhost:5292",
         "environmentVariables": {
             "ASPNETCORE_ENVIRONMENT": "Development",
-            // These values are here for testing purposes. Ideally, these ones should come from outside to improve the security,
-            // like AWS Secrets Manager
+            // These values are here for testing purposes. Ideally, they should come from outside to improve the security (e.g. AWS Secrets Manager)
             "SLOT_SERVICE_URI": "https://draliatest.azurewebsites.net/api/availability/",
             "SLOT_SERVICE_USERNAME": "techuser",
-            "SLOT_SERVICE_PASSWORD": "secretpassWord"
+            "SLOT_SERVICE_PASSWORD": "secretpassWord",
+            "APPOINTMENT_MANAGER_USERNAME": "One",
+            "APPOINTMENT_MANAGER_PASSWORD": "Piece"
         }
     }
   }

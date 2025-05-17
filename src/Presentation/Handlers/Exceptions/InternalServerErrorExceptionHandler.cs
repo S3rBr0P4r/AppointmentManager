@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AppointmentManager.Presentation.ExceptionHandlers
+namespace AppointmentManager.Presentation.Handlers.Exceptions
 {
     public class InternalServerErrorExceptionHandler : IExceptionHandler
     {

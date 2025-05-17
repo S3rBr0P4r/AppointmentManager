@@ -6,12 +6,14 @@ using AppointmentManager.Domain.Entities;
 using AppointmentManager.Infrastructure.Dispatchers;
 using AppointmentManager.Presentation.Configuration.SwaggerExamples;
 using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace AppointmentManager.Presentation.Controllers.v1
 {
+    [Authorize]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
