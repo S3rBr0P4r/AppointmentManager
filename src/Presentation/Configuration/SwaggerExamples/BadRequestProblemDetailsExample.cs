@@ -3,7 +3,7 @@ using Swashbuckle.AspNetCore.Filters;
 
 namespace AppointmentManager.Presentation.Configuration.SwaggerExamples
 {
-    public class ProblemDetailsExample : IExamplesProvider<ProblemDetails>
+    public class BadRequestProblemDetailsExample : IExamplesProvider<ProblemDetails>
     {
         public ProblemDetails GetExamples()
         {

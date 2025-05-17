@@ -40,11 +40,14 @@ namespace AppointmentManager.Presentation.Controllers.v1
         /// <param name="cancellationToken"></param>
         /// <response code="200">OK with a list of available slots for the week</response>
         /// <response code="400">BadRequest because of an invalid date used</response>
+        /// <response code="401">Unauthorized because credentials are invalid</response>
         [HttpGet("Available")]
         [ProducesResponseType<IEnumerable<Slot>>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [SwaggerResponseExample(StatusCodes.Status200OK, typeof(SlotExample))]
-        [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemDetailsExample))]
+        [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(BadRequestProblemDetailsExample))]
+        [SwaggerResponseExample(StatusCodes.Status401Unauthorized, typeof(UnauthorizedProblemDetailsExample))]
         public async Task<IActionResult> GetAvailableSlotsAsync([FromQuery, BindRequired] DateOnly date, CancellationToken cancellationToken)
         {
             var query = new GetAvailableSlotsQuery(date);
@@ -61,12 +64,15 @@ namespace AppointmentManager.Presentation.Controllers.v1
         /// <param name="cancellationToken"></param>
         /// <response code="202">Accepted indicating that the response was successfully processed by Slot service</response>
         /// <response code="400">BadRequest because of an issue coming from Slot service</response>
+        /// <response code="401">Unauthorized because credentials are invalid</response>
         [HttpPost("Take")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [Consumes(MediaTypeNames.Application.Json)]
         [SwaggerRequestExample(typeof(TakeSlotCommand), typeof(TakeSlotCommandExample))]
-        [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemDetailsExample))]
+        [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(BadRequestProblemDetailsExample))]
+        [SwaggerResponseExample(StatusCodes.Status401Unauthorized, typeof(UnauthorizedProblemDetailsExample))]
         public async Task<IActionResult> TakeSlotAsync([FromBody, BindRequired] TakeSlotCommand command, CancellationToken cancellationToken)
         {
             var statusCode = await _commandDispatcher.Dispatch<TakeSlotCommand, HttpStatusCode>(command, cancellationToken);
