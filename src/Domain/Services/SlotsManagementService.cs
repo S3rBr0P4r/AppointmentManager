@@ -1,15 +1,18 @@
 ﻿using System.Net;
 using AppointmentManager.Domain.Entities;
 using AppointmentManager.Domain.Models;
+using Microsoft.Extensions.Logging;
 
 namespace AppointmentManager.Domain.Services
 {
     public class SlotsManagementService : ISlotsManagementService
     {
+        private readonly ILogger<SlotsManagementService> _logger;
         private readonly IDoctorShiftService _doctorShiftService;
 
-        public SlotsManagementService(IDoctorShiftService doctorShiftService)
+        public SlotsManagementService(ILogger<SlotsManagementService> logger, IDoctorShiftService doctorShiftService)
         {
+            _logger = logger;
             _doctorShiftService = doctorShiftService;
         }
 
@@ -35,6 +38,7 @@ namespace AppointmentManager.Domain.Services
 
                     if (SlotIsAlreadyBooked(workDay.BusySlots, slot))
                     {
+                        _logger.LogInformation("Slot from {SlotStart} till {SlotEnd} already booked", slot.Start, slot.End);
                         startWorkPeriod = startWorkPeriod.AddMinutes(slotsInformation.SlotDurationMinutes);
                         continue;
                     }
@@ -48,6 +52,9 @@ namespace AppointmentManager.Domain.Services
                 }
             }
 
+            _logger.LogInformation(
+                "{AvailableSlotsCount} available slot(s) found with a duration of {SlotsInformationSlotDurationMinutes} minutes each of them",
+                availableSlots.Count, slotsInformation.SlotDurationMinutes);
             return availableSlots;
         }
 
@@ -58,6 +65,10 @@ namespace AppointmentManager.Domain.Services
             {
                 throw new ArgumentException(response.Content.ReadAsStringAsync(cancellationToken).Result);
             }
+
+            _logger.LogInformation(
+                "Slot from {AppointmentStart} till {AppointmentEnd} booked to patient {PatientName} {PatientSecondName}",
+                appointment.Start, appointment.End, appointment.Patient.Name, appointment.Patient.SecondName);
             return response.StatusCode;
         }
 

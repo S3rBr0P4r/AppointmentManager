@@ -5,13 +5,6 @@ namespace AppointmentManager.Presentation.ExceptionHandlers
 {
     public class BadRequestExceptionHandler : IExceptionHandler
     {
-        private readonly ILogger<BadRequestExceptionHandler> _logger;
-
-        public BadRequestExceptionHandler(ILogger<BadRequestExceptionHandler> logger)
-        {
-            _logger = logger;
-        }
-
         public async ValueTask<bool> TryHandleAsync(
             HttpContext httpContext,
             Exception exception,
@@ -21,8 +14,6 @@ namespace AppointmentManager.Presentation.ExceptionHandlers
             {
                 return false;
             }
-
-            _logger.LogError(argumentException, "Exception occurred: {Message}", argumentException.Message);
 
             var problemDetails = new ProblemDetails
             {

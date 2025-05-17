@@ -43,6 +43,7 @@ Any feedback about it is more than welcome.
 | Frontend  | Swagger |
 | Testing  | xUnit |
 | Mock frameworks  | Moq |
+| Others | Serilog
 | Software architecture patterns | RESTful API design
 | Design patterns | CQRS
 | | Builder
@@ -53,5 +54,4 @@ Any feedback about it is more than welcome.
 ## Next steps, based on product requirements
 
 * Add authorization in API write operations to increase security
-* Improve logging using Serilog instead of ILogger to send logs to Datadog
 * Increase test coverage, specially on end to end tests
