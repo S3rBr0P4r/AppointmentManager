@@ -51,6 +51,7 @@ Any feedback about it is more than welcome.
 | Testing  | xUnit |
 | Mock frameworks  | Moq |
 | Others | Serilog
+| | Fluent Validations
 | Software architecture patterns | RESTful API design
 | Design patterns | CQRS
 | | Builder
