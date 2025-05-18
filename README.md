@@ -26,7 +26,7 @@ to book it.
 
 ## Observations
 
-* For simplicity, **all sensitive data is available in the file `launchSettings.json`**
+* For simplicity, **all sensitive data is available in the file `launchSettings.json`**. Ideally, this information should not be in the repository and be provided from services like AWS Secrets Manager.
 * Every endpoint contains documentation and examples for better understanding.
 * This project has been done using clean architecture as better as possible.
 Any feedback about it is more than welcome.
@@ -57,8 +57,9 @@ Any feedback about it is more than welcome.
 | | SOLID principles
 | Development tools | Visual Studio Professional 2022, Version 17.13.6
 | | Visual Studio Code 1.100.1
+| | ReSharper 2025.1.2 Trial Version
 
-## Next steps, based on product requirements
+## Next steps
 
 * Configure OpenTelemetry to send metrics to DataDog
 * Increase test coverage, specially on end to end tests
