@@ -1,7 +1,4 @@
-using AppointmentManager.Infrastructure.Handlers;
 using AppointmentManager.Presentation.Configuration;
-using AppointmentManager.Presentation.Handlers;
-using Microsoft.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,8 +16,7 @@ builder.Services.ConfigureVersioning();
 builder.Services.AddExceptionsHandlers();
 builder.Services.AddProblemDetails();
 
-builder.Services.AddAuthentication("BasicAuthentication")
-    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+builder.Services.AddBasicAuthorization();
 
 builder.Services
     .AddControllers()
